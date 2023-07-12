@@ -10,9 +10,13 @@ import {
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import React from "react";
 import TrendingMovies from "../components/TrendingMovies";
+import MovieList from "../components/MovieList";
 
 const MoviesScreen = () => {
   const [trending, setTrending] = React.useState([1, 2, 3, 4, 5]);
+  const [upcoming, setUpcoming] = React.useState([1, 2, 3, 4, 5]);
+  const [topRated, setTopRated] = React.useState([1, 2, 3, 4, 5]);
+
   return (
     <View className="flex-1 bg-neutral-800">
       <StatusBar barStyle="light-content" />
@@ -34,6 +38,12 @@ const MoviesScreen = () => {
       >
         {/* Trending movies corousel */}
         <TrendingMovies trending={trending} />
+
+        {/* Upcoming movies row */}
+        <MovieList title="Upcoming Movies" data={upcoming} />
+
+        {/* Top rated movies row */}
+        <MovieList title="Top-rated Movies" data={topRated} />
       </ScrollView>
     </View>
   );
