@@ -27,7 +27,7 @@ describe("HomeScreen", function () {
     // expect(screen.toJSON()).toMatchSnapshot();
   });
 
-  it("should display button for movie app", async () => {
+  it("should redirect to the new screen and display button for movie app", async () => {
     const component = (
       <NavigationContainer>
         <AppStack />

@@ -1,11 +1,41 @@
-import { View, Text, SafeAreaView } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  StatusBar,
+  Platform,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 import React from "react";
+import TrendingMovies from "../components/TrendingMovies";
 
 const MoviesScreen = () => {
+  const [trending, setTrending] = React.useState([1, 2, 3, 4, 5]);
   return (
-    <SafeAreaView>
-      <Text>MoviesScreen</Text>
-    </SafeAreaView>
+    <View className="flex-1 bg-neutral-800">
+      <StatusBar barStyle="light-content" />
+      <SafeAreaView className={`${Platform.OS === "ios" ? "-mb-2" : "mb-3"}`}>
+        <View className="flex-row items-center justify-between mx-4">
+          <FontAwesome name="bars" size={30} color="white" />
+          <Text className="text-white text-3xl font-bold">
+            <Text className="text-corn-500">M</Text>ovies
+          </Text>
+          <TouchableOpacity>
+            <FontAwesome name="search" size={30} color="white" />
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 10 }}
+      >
+        {/* Trending movies corousel */}
+        <TrendingMovies trending={trending} />
+      </ScrollView>
+    </View>
   );
 };
 
