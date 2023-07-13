@@ -18,7 +18,7 @@ const Cast = ({ cast, navigation }: any) => {
               <TouchableOpacity
                 key={index}
                 className="mr-4 text-center"
-                onPress={() => navigation.navigate("PersonScreen", person)}
+                onPress={() => navigation.navigate("ActorScreen", person)}
               >
                 <View className="overflow-hidden rounded-full h-20 w-20 items-center border border-neutral-300">
                   <Image
