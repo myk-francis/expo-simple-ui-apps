@@ -4,12 +4,15 @@ import HomeScreen from "../screens/HomeScreen";
 import MoviesScreen from "../screens/MoviesScreen";
 import MovieDetailsScreen from "../screens/MovieDetailsScreen";
 import ActorScreen from "../screens/ActorScreen";
+import SearchMovieScreen from "../screens/SearchMovieScreen";
+import { TrendingMovieProp } from "../constants/Types";
 
 export type RootStackParamList = {
   HomeScreen: undefined;
   MoviesScreen: undefined;
-  MovieDetailsScreen: undefined;
+  MovieDetailsScreen: TrendingMovieProp;
   ActorScreen: undefined;
+  SearchMovieScreen: undefined;
   // Feed: { sort: 'latest' | 'top' } | undefined;
 };
 
@@ -37,6 +40,11 @@ const AppStack = () => {
         name="ActorScreen"
         options={{ headerShown: false }}
         component={ActorScreen}
+      />
+      <Stack.Screen
+        name="SearchMovieScreen"
+        options={{ headerShown: false }}
+        component={SearchMovieScreen}
       />
     </Stack.Navigator>
   );
