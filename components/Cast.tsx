@@ -1,7 +1,9 @@
 import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
 import React from "react";
+import { CastScreenProps } from "../constants/Types";
+import { fallbackPersonImage, image185 } from "../api/movieDB";
 
-const Cast = ({ cast, navigation }: any) => {
+const Cast = ({ cast, navigation }: CastScreenProps) => {
   let personName = "Keanu Reeves";
   let characterName = "John Wick";
   return (
@@ -14,7 +16,7 @@ const Cast = ({ cast, navigation }: any) => {
         className=""
       >
         {cast !== null
-          ? cast.map((person: any, index: any) => (
+          ? cast.map((person, index) => (
               <TouchableOpacity
                 key={index}
                 className="mr-4 text-center"
@@ -22,19 +24,22 @@ const Cast = ({ cast, navigation }: any) => {
               >
                 <View className="overflow-hidden rounded-full h-20 w-20 items-center border border-neutral-300">
                   <Image
-                    source={require("../assets/images/castImage1.png")}
+                    // source={require("../assets/images/castImage1.png")}
+                    source={{
+                      uri: image185(person.profile_path) || fallbackPersonImage,
+                    }}
                     className="rounded-2xl h-24 w-24"
                   />
                 </View>
                 <Text className="text-white text-xs mt-1">
-                  {characterName.length > 10
-                    ? characterName.slice(0, 10) + "..."
-                    : characterName}
+                  {person?.character.length > 10
+                    ? person?.character.slice(0, 10) + "..."
+                    : person?.character}
                 </Text>
                 <Text className="text-neutral-400 text-xs mt-1">
-                  {personName.length > 10
-                    ? personName.slice(0, 10) + "..."
-                    : personName}
+                  {person?.original_name.length > 10
+                    ? person?.original_name.slice(0, 10) + "..."
+                    : person?.original_name}
                 </Text>
               </TouchableOpacity>
             ))

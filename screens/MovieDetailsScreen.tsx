@@ -17,15 +17,38 @@ import { LinearGradient } from "expo-linear-gradient";
 import Cast from "../components/Cast";
 import MovieList from "../components/MovieList";
 import Loading from "../components/Loading";
+import {
+  fallbackMoviePoster,
+  fetchMovieCredits,
+  fetchMovieDetails,
+  fetchSimilarMovies,
+  image500,
+} from "../api/movieDB";
+import { RootStackParamList } from "../navigation/AppStack";
+import { StackNavigationProp } from "@react-navigation/stack";
+import type { RouteProp } from "@react-navigation/native";
+import {
+  MovieDetailsProp,
+  CastProp,
+  SimilarMoviesProps,
+} from "../constants/Types";
+
+type MovieDetailsScreenProp = RouteProp<
+  RootStackParamList,
+  "MovieDetailsScreen"
+>;
 
 const { width, height } = Dimensions.get("window");
 
 const MovieDetailsScreen = () => {
-  const { params: item } = useRoute();
+  const { params: item } = useRoute<MovieDetailsScreenProp>();
   const navigation = useNavigation();
   const [isFavorite, toggleFavorite] = React.useState(false);
-  const [cast, setCast] = React.useState([1, 2, 3, 4, 5]);
-  const [similarMovies, setSimilarMovies] = React.useState([1, 2, 3, 4, 5]);
+  const [cast, setCast] = React.useState<CastProp[] | null>(null);
+  const [similarMovies, setSimilarMovies] =
+    React.useState<SimilarMoviesProps | null>(null);
+  const [movieDetails, setMovieDetails] =
+    React.useState<MovieDetailsProp | null>(null);
   const [loading, setLoading] = React.useState(false);
 
   const movieName = "Ant-man and the wasp: Quantamania";
@@ -33,8 +56,31 @@ const MovieDetailsScreen = () => {
   const topMargin = Platform.OS === "ios" ? "" : "mt-3";
 
   React.useEffect(() => {
-    return () => {};
+    getMovieDetails(item.id);
+    getMovieCredits(item.id);
+    getSimilarMovies(item.id);
   }, [item]);
+
+  const getMovieDetails = async (id: number) => {
+    setLoading(true);
+    const data = await fetchMovieDetails(id);
+    if (data) setMovieDetails(data);
+    setLoading(false);
+  };
+
+  const getMovieCredits = async (id: number) => {
+    setLoading(true);
+    const data = await fetchMovieCredits(id);
+    if (data) setCast(data.cast);
+    setLoading(false);
+  };
+
+  const getSimilarMovies = async (id: number) => {
+    setLoading(true);
+    const data = await fetchSimilarMovies(id);
+    if (data) setSimilarMovies({ data: data.results });
+    setLoading(false);
+  };
 
   return (
     <ScrollView
@@ -67,11 +113,17 @@ const MovieDetailsScreen = () => {
           <Loading />
         ) : (
           <View>
-            <Image
-              source={require("../assets/images/moviePoster2.png")}
-              style={{ width: width, height: height * 0.55 }}
-              className=""
-            />
+            {movieDetails ? (
+              <Image
+                // source={require("../assets/images/moviePoster2.png")}
+                source={{
+                  uri:
+                    image500(movieDetails?.poster_path) || fallbackMoviePoster,
+                }}
+                style={{ width: width, height: height * 0.55 }}
+                className=""
+              />
+            ) : null}
             <LinearGradient
               colors={[
                 "transparent",
@@ -89,54 +141,47 @@ const MovieDetailsScreen = () => {
       {/* movie details */}
       <View className="w-full space-y-3 -mt-10">
         <Text className="text-white text-3xl text-center font-bold tracking-wider">
-          {movieName}
+          {movieDetails?.title}
         </Text>
 
         {/* status, releast date and runtime */}
         <Text className="text-neutral-400 font-semibold text-base text-center">
-          Released • 2020 • 170 mins
+          {movieDetails?.status} • {movieDetails?.release_date.split("-")[0]} •
+          {movieDetails?.runtime} mins
         </Text>
 
         {/* genres */}
         <View className="flex-row justify-center mx-4 space-x-4">
-          <Text className="text-neutral-400 font-semibold text-base text-center">
-            Action •
-          </Text>
-          <Text className="text-neutral-400 font-semibold text-base text-center">
-            Thrill •
-          </Text>
-          <Text className="text-neutral-400 font-semibold text-base text-center">
-            Comedy •
-          </Text>
-          <Text className="text-neutral-400 font-semibold text-base text-center">
-            Adventure
-          </Text>
+          {movieDetails?.genres.map((genre, index) => {
+            let showDot = index + 1 !== movieDetails?.genres.length;
+            return (
+              <Text
+                key={index}
+                className="text-neutral-400 font-semibold text-base text-center"
+              >
+                {genre.name}
+                {showDot ? "  •" : ""}
+              </Text>
+            );
+          })}
         </View>
 
         {/* description */}
         <Text className="text-neutral-400 mx-4 tracking-wide">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore,
-          quam porro doloribus illum dolore deserunt iste illo a in numquam quod
-          eveniet vel omnis aspernatur sed nostrum iure corrupti eius, totam
-          mollitia ad. Consequuntur a obcaecati iste, dolorem ipsa quod
-          accusamus doloribus aliquid tempore ducimus doloremque, sapiente
-          deleniti quas at sit ab adipisci perferendis vel animi, est amet?
-          Ducimus omnis vero ea distinctio quo eligendi quia, sint, iusto
-          veritatis temporibus placeat beatae non porro dolores doloremque,
-          consequuntur est! Atque unde dolores impedit corporis, libero neque
-          esse vel adipisci aliquam commodi non repudiandae aperiam inventore
-          maiores voluptatem. Unde iste ratione fugiat.
+          {movieDetails?.overview}
         </Text>
       </View>
       {/* cast */}
       <Cast navigation={navigation} cast={cast} />
 
       {/* similar movies  */}
-      <MovieList
-        title="Similar Movies"
-        data={similarMovies}
-        hideSeeAll={true}
-      />
+      {similarMovies !== null ? (
+        <MovieList
+          title="Upcoming Movies"
+          data={similarMovies?.data}
+          hideSeeAll={true}
+        />
+      ) : null}
     </ScrollView>
   );
 };

@@ -15,8 +15,12 @@ import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../navigation/AppStack";
 import { StackNavigationProp } from "@react-navigation/stack";
 import Loading from "../components/Loading";
-import { fetchTreadingMovies } from "../api/movieDB";
-import { TrendingMovieProp, TrendingMoviePropList } from "../constants/Types";
+import { fetchTreadingMovies, fetchUpcomingMovies } from "../api/movieDB";
+import {
+  MoviePropList,
+  MovieProp,
+  TrendingMoviePropList,
+} from "../constants/Types";
 
 type MoviescreenProp = StackNavigationProp<
   RootStackParamList,
@@ -25,20 +29,46 @@ type MoviescreenProp = StackNavigationProp<
 
 const MoviesScreen = () => {
   const navigation = useNavigation<MoviescreenProp>();
-  const [trending, setTrending] = React.useState<TrendingMovieProp[]>([]);
-  const [upcoming, setUpcoming] = React.useState([1, 2, 3, 4, 5]);
-  const [topRated, setTopRated] = React.useState([1, 2, 3, 4, 5]);
+  const [trending, setTrending] = React.useState<TrendingMoviePropList | null>(
+    null
+  );
+  const [upcoming, setUpcoming] = React.useState<MoviePropList | null>(null);
+  const [topRated, setTopRated] = React.useState<MoviePropList | null>(null);
   const [loading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
     getTreadingMovies();
+    getUpcomingMovies();
+    getTopRatedMovies();
   }, []);
 
   const getTreadingMovies = async () => {
     setLoading(true);
     const data = await fetchTreadingMovies();
     if (data && data.results) {
-      setTrending(data);
+      setTrending({ trending: data.results });
+      // console.debug(
+      //   "✅ --> ☀️ File:MoviesScreen | Function: getTreadingMovies | trending: ☀️ --> ",
+      //   trending
+      // );
+    }
+    setLoading(false);
+  };
+
+  const getUpcomingMovies = async () => {
+    setLoading(true);
+    const data = await fetchUpcomingMovies();
+    if (data && data.results) {
+      setUpcoming({ data: data.results });
+    }
+    setLoading(false);
+  };
+
+  const getTopRatedMovies = async () => {
+    setLoading(true);
+    const data = await fetchTreadingMovies();
+    if (data && data.results) {
+      setTopRated({ data: data.results });
     }
     setLoading(false);
   };
@@ -68,13 +98,15 @@ const MoviesScreen = () => {
           contentContainerStyle={{ paddingBottom: 10 }}
         >
           {/* Trending movies corousel */}
-          {trending.length > 0 ? <TrendingMovies {...trending} /> : null}
+          {trending !== null ? <TrendingMovies {...trending} /> : null}
 
           {/* Upcoming movies row */}
-          <MovieList title="Upcoming Movies" data={upcoming} />
+          {upcoming !== null ? (
+            <MovieList title="Upcoming Movies" data={upcoming.data} />
+          ) : null}
 
           {/* Top rated movies row */}
-          <MovieList title="Top-rated Movies" data={topRated} />
+          {/* <MovieList title="Top-rated Movies" {...topRated} /> */}
         </ScrollView>
       )}
     </View>

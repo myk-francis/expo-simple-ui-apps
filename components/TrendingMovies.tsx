@@ -10,7 +10,11 @@ import Carousel from "react-native-snap-carousel";
 import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../navigation/AppStack";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { TrendingMovieProp, MovieCardProps } from "../constants/Types";
+import {
+  TrendingMovieProp,
+  MovieCardProps,
+  TrendingMoviePropList,
+} from "../constants/Types";
 import { image500 } from "../api/movieDB";
 
 type MovieDetailsScreenProp = StackNavigationProp<
@@ -21,7 +25,7 @@ type MovieDetailsScreenProp = StackNavigationProp<
 const { width, height } = Dimensions.get("window");
 
 const MovieCard = ({ item, handleClick }: MovieCardProps) => {
-  console.log("✅ File:TrendingMovies | Function: MovieCard | item:", item);
+  // console.log("✅ File:TrendingMovies | Function: MovieCard | item:", item);
   return (
     <TouchableWithoutFeedback className="p-2" onPress={() => handleClick(item)}>
       <Image
@@ -34,7 +38,11 @@ const MovieCard = ({ item, handleClick }: MovieCardProps) => {
   );
 };
 
-const TrendingMovies = (trending: TrendingMovieProp[]) => {
+const TrendingMovies = ({ trending }: TrendingMoviePropList) => {
+  // console.debug(
+  //   "✅ --> ☀️ File:TrendingMovies | Function: TrendingMovies | trending:☀️ --> ",
+  //   trending
+  // );
   const navigation = useNavigation<MovieDetailsScreenProp>();
 
   const handleClick = (item: TrendingMovieProp) => {

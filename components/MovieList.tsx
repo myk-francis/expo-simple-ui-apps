@@ -11,6 +11,8 @@ import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../navigation/AppStack";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { MovieListProps } from "../constants/Types";
+import { fallbackMoviePoster, image185 } from "../api/movieDB";
 
 type MovieDetailsScreenProp = StackNavigationProp<
   RootStackParamList,
@@ -19,7 +21,7 @@ type MovieDetailsScreenProp = StackNavigationProp<
 
 const { width, height } = Dimensions.get("window");
 
-const MovieList = ({ title, data, hideSeeAll }: any) => {
+const MovieList = ({ title, data, hideSeeAll }: MovieListProps) => {
   const movieName = "Ant-man and the wasp: Quantamania";
   const navigation = useNavigation<MovieDetailsScreenProp>();
 
@@ -39,7 +41,7 @@ const MovieList = ({ title, data, hideSeeAll }: any) => {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{ paddingHorizontal: 15 }}
       >
-        {data.map((item: any, index: any) => (
+        {data.map((item, index) => (
           <TouchableWithoutFeedback
             key={index}
             className=""
@@ -47,14 +49,17 @@ const MovieList = ({ title, data, hideSeeAll }: any) => {
           >
             <View className="space-y-1 mr-4">
               <Image
-                source={require("../assets/images/moviePoster2.png")}
+                // source={require("../assets/images/moviePoster2.png")}
+                source={{
+                  uri: image185(item.poster_path) || fallbackMoviePoster,
+                }}
                 style={{ width: width * 0.33, height: height * 0.22 }}
                 className="rounded-3xl"
               />
               <Text className="text-neutral-300 ml-1">
-                {movieName.length > 14
-                  ? movieName.slice(0, 14) + "..."
-                  : movieName}
+                {item.title.length > 14
+                  ? item.title.slice(0, 14) + "..."
+                  : item.title}
               </Text>
             </View>
           </TouchableWithoutFeedback>
