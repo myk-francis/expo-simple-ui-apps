@@ -15,6 +15,9 @@ import Feather from "@expo/vector-icons/Feather";
 import { RootStackParamList } from "../navigation/AppStack";
 import { StackNavigationProp } from "@react-navigation/stack";
 import Loading from "../components/Loading";
+import { debounce } from "lodash";
+import { fallbackMoviePoster, image185, searchMovies } from "../api/movieDB";
+import { MovieProp } from "../constants/Types";
 
 type MovieDetailsScreenProp = StackNavigationProp<
   RootStackParamList,
@@ -28,11 +31,24 @@ const SearchMovieScreen = () => {
   const [results, setResults] = React.useState([1, 2, 3, 4, 5]);
   const movieName = "Ant-man and the wasp: Quantamania";
   const [loading, setLoading] = React.useState(false);
+  const [movies, setMovies] = React.useState<MovieProp[] | null>(null);
+
+  const handleSearch = async (value: string) => {
+    if (value) {
+      setLoading(true);
+      const data = await searchMovies(value);
+      if (data) setMovies(data?.results);
+      setLoading(false);
+    }
+  };
+
+  const handleTextDebounce = React.useCallback(debounce(handleSearch, 400), []);
 
   return (
     <SafeAreaView className="flex-1 bg-neutral-800">
       <View className="flex-row justify-between items-center mx-4 mb-3 border border-neutral-500 rounded-full">
         <TextInput
+          onChangeText={(text) => handleSearch(text)}
           placeholder="Search"
           placeholderTextColor={"lightgray"}
           className="pb-1 pl-6 flex-1 text-base font-semibold text-white tracking-wider "
@@ -55,29 +71,32 @@ const SearchMovieScreen = () => {
         >
           <>
             <Text className="text-white font-semibold ml-1">
-              Results: ({results.length})
+              Results: ({movies?.length})
             </Text>
             <View className="flex-row flex-wrap justify-between">
-              {results?.length > 0 ? (
-                results.map((item, index) => (
+              {movies !== null ? (
+                movies.map((movie, index) => (
                   <TouchableWithoutFeedback
                     key={index}
                     className="p-2 bg-neutral-900 rounded-lg"
                     onPress={() =>
-                      // navigation.navigate("MovieDetailsScreen", item)
-                      {}
+                      navigation.navigate("MovieDetailsScreen", movie)
                     }
                   >
                     <View className="space-y-2 mb-4">
                       <Image
-                        source={require("../assets/images/moviePoster2.png")}
+                        // source={require("../assets/images/moviePoster2.png")}
+                        source={{
+                          uri:
+                            image185(movie.poster_path) || fallbackMoviePoster,
+                        }}
                         style={{ width: width * 0.44, height: height * 0.3 }}
                         className="rounded-3xl"
                       />
                       <Text className="text-neutral-300 ml-1">
-                        {movieName.length > 22
-                          ? movieName.slice(0, 22) + "..."
-                          : movieName}
+                        {movie.title.length > 22
+                          ? movie.title.slice(0, 22) + "..."
+                          : movie.title}
                       </Text>
                     </View>
                   </TouchableWithoutFeedback>

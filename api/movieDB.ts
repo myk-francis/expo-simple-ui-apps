@@ -13,7 +13,9 @@ const upcomingMoviesEndpoint =
 
 const topRatedMoviesEndpoint =
   "https://api.themoviedb.org/3/trending/movie/top_rated?language=en-US&page=1";
-const searchMoviesEndpoint = `https://api.themoviedb.org/3/search/movie?include_adult=false&language=en-US&page=1`;
+
+const searchMoviesEndpoint = (query: string) =>
+  `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=en-US&page=1`;
 
 // movie
 const movieDetailsEndpoint = (id: number) =>
@@ -96,6 +98,6 @@ export const fetchPersonMovies = (personId: number) => {
 };
 
 // search screen apis
-export const searchMovies = (params: number) => {
-  return apiCall(searchMoviesEndpoint, params);
+export const searchMovies = (query: string) => {
+  return apiCall(searchMoviesEndpoint(query), {});
 };
