@@ -106,7 +106,9 @@ const MoviesScreen = () => {
           ) : null}
 
           {/* Top rated movies row */}
-          {/* <MovieList title="Top-rated Movies" {...topRated} /> */}
+          {topRated !== null ? (
+            <MovieList title="Upcoming Movies" data={topRated.data} />
+          ) : null}
         </ScrollView>
       )}
     </View>

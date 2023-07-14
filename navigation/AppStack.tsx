@@ -5,13 +5,13 @@ import MoviesScreen from "../screens/MoviesScreen";
 import MovieDetailsScreen from "../screens/MovieDetailsScreen";
 import ActorScreen from "../screens/ActorScreen";
 import SearchMovieScreen from "../screens/SearchMovieScreen";
-import { TrendingMovieProp } from "../constants/Types";
+import { MovieProp, ActorProp, CastProp } from "../constants/Types";
 
 export type RootStackParamList = {
   HomeScreen: undefined;
   MoviesScreen: undefined;
-  MovieDetailsScreen: TrendingMovieProp;
-  ActorScreen: undefined;
+  MovieDetailsScreen: MovieProp;
+  ActorScreen: CastProp;
   SearchMovieScreen: undefined;
   // Feed: { sort: 'latest' | 'top' } | undefined;
 };

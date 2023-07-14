@@ -25,7 +25,7 @@ const similarMoviesEndpoint = (id: number) =>
 
 // person
 const personDetailsEndpoint = (id: number) =>
-  `'https://api.themoviedb.org/3/person/${id}?language=en-US`;
+  `https://api.themoviedb.org/3/person/${id}?language=en-US`;
 const personMoviesEndpoint = (id: number) =>
   `https://api.themoviedb.org/3/person/${id}/movie_credits?language=en-US`;
 

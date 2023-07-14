@@ -15,17 +15,52 @@ import { useRoute, useNavigation } from "@react-navigation/native";
 import { theme } from "../constants/Constants";
 import MovieList from "../components/MovieList";
 import Loading from "../components/Loading";
+import { MovieProp, ActorMoviesProps, ActorProp } from "../constants/Types";
+import type { RouteProp } from "@react-navigation/native";
+import { RootStackParamList } from "../navigation/AppStack";
+import {
+  fallbackPersonImage,
+  fetchPersonDetails,
+  fetchPersonMovies,
+  image342,
+} from "../api/movieDB";
+
+type ActorScreenProp = RouteProp<RootStackParamList, "ActorScreen">;
 
 const { width, height } = Dimensions.get("window");
 
 const verticalMargin = Platform.OS === "ios" ? "" : "my-3";
 
 const ActorScreen = () => {
-  const { params: person } = useRoute();
+  const { params: person } = useRoute<ActorScreenProp>();
   const navigation = useNavigation();
   const [isFavorite, toggleFavorite] = React.useState(false);
-  const [actorMovies, setActorMovies] = React.useState([1, 2, 3, 4, 5]);
+  const [actorMovies, setActorMovies] = React.useState<ActorMoviesProps | null>(
+    null
+  );
+  const [actor, setActor] = React.useState<ActorProp | null>(null);
   const [loading, setLoading] = React.useState(false);
+
+  React.useEffect(() => {
+    getPersonDetails(person.id);
+    getPersonMovies(person.id);
+  }, [person]);
+
+  const getPersonDetails = async (id: number) => {
+    setLoading(true);
+    const data = await fetchPersonDetails(id);
+    if (data) setActor(data);
+    setLoading(false);
+  };
+
+  const getPersonMovies = async (id: number) => {
+    setLoading(true);
+    const data = await fetchPersonMovies(id);
+    if (data) setActorMovies({ data: data.cast });
+    setLoading(false);
+  };
+
+  if (loading) return <Loading />;
 
   return (
     <ScrollView
@@ -55,97 +90,81 @@ const ActorScreen = () => {
       </SafeAreaView>
 
       {/* person details  */}
-      {loading ? (
-        <Loading />
-      ) : (
-        <View>
-          <View
-            className="flex-row justify-center "
-            style={
-              {
-                // shadowColor: "gray",
-                // shadowOffset: {
-                //   width: 0,
-                //   height: 5,
-                // },
-                // shadowOpacity: 1,
-                // shadowRadius: 11.14,
-                // elevation: 17,
-              }
+
+      <View>
+        <View
+          className="flex-row justify-center "
+          style={
+            {
+              // shadowColor: "gray",
+              // shadowOffset: {
+              //   width: 0,
+              //   height: 5,
+              // },
+              // shadowOpacity: 1,
+              // shadowRadius: 11.14,
+              // elevation: 17,
             }
-          >
-            <View className="items-center rounded-full overflow-hidden h-72 w-72 border-2 border-neutral-500">
-              <Image
-                source={require("../assets/images/castImage2.png")}
-                style={{ width: width * 0.74, height: height * 0.43 }}
-                className=""
-              />
-            </View>
+          }
+        >
+          <View className="items-center rounded-full overflow-hidden h-72 w-72 border-2 border-neutral-500">
+            <Image
+              source={
+                // require("../assets/images/castImage2.png")
+                { uri: image342(person?.profile_path) || fallbackPersonImage }
+              }
+              style={{ width: width * 0.74, height: height * 0.43 }}
+              className=""
+            />
           </View>
-
-          <View className="mt-6">
-            <Text className="text-3xl text-white font-bold text-center">
-              Keanu Reeves
-            </Text>
-            <Text className="text-base text-neutral-500 text-center">
-              London, United Kingdom
-            </Text>
-          </View>
-
-          <View className="mt-6 mx-3 p-4 flex-row justify-between items-center bg-neutral-700 rounded-full">
-            <View className="border-r-2 border-r-neutral-400 px-2 items-center">
-              <Text className="text-white font-semibold">Gender</Text>
-              <Text className="text-neutral-300 text-sm">Male</Text>
-            </View>
-            <View className="border-r-2 border-r-neutral-400 px-2 items-center">
-              <Text className="text-white font-semibold">Birthday</Text>
-              <Text className="text-neutral-300 text-sm">2023-05-05</Text>
-            </View>
-            <View className="border-r-2 border-r-neutral-400 px-2 items-center">
-              <Text className="text-white font-semibold">Known for</Text>
-              <Text className="text-neutral-300 text-sm">Acting</Text>
-            </View>
-            <View className=" px-2 items-center">
-              <Text className="text-white font-semibold">Popularity</Text>
-              <Text className="text-neutral-300 text-sm">64.23</Text>
-            </View>
-          </View>
-
-          <View className="my-6 mx-4 space-y-2">
-            <Text className="text-white text-lg">Biography</Text>
-            <Text className="text-neutral-400 tracking-wide">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere
-              fugiat itaque nisi ipsum quo nulla magni id, dignissimos voluptas
-              vitae blanditiis ipsam tenetur? Ab ad rerum fugiat dolor numquam
-              quos obcaecati, delectus neque consequatur ipsam, facilis,
-              suscipit blanditiis voluptatibus voluptas nam! Molestias
-              consectetur accusantium mollitia iste, harum quod, at tempora odio
-              obcaecati itaque tenetur natus qui ducimus esse repudiandae,
-              consequatur tempore ut officiis eaque dolorum. Ducimus aut tenetur
-              nam quas ea laudantium quo mollitia, minus suscipit, vitae neque
-              cupiditate libero delectus ullam non aspernatur? Ab illum iste
-              nemo eligendi? Omnis eveniet quas doloremque ducimus odio sit
-              fuga. Praesentium labore vero, dicta recusandae officiis
-              voluptatum accusamus, excepturi quisquam minima quasi delectus
-              aperiam sit iste fugit, nulla aut unde numquam odio? Nihil
-              repudiandae fugit sed dolor, odit adipisci, harum fuga
-              consequuntur pariatur dolores assumenda inventore voluptatibus
-              earum obcaecati eligendi? Beatae, exercitationem laborum
-              reprehenderit veniam veritatis illum est, ipsam voluptatibus
-              atque, commodi eligendi iure? Voluptates harum voluptatem cumque
-              maxime voluptatibus velit nobis illum pariatur quaerat quibusdam.
-              Commodi optio quod, repellendus, consequuntur ut cumque
-              voluptatibus atque vero sed minima porro quia voluptate expedita.
-              Rem numquam excepturi eum, consequuntur explicabo sint? Commodi
-              nemo sunt repudiandae, omnis aspernatur aperiam voluptatum
-              excepturi repellendus voluptatibus, adipisci inventore laborum!
-            </Text>
-          </View>
-
-          {/* movie list  */}
-          <MovieList title="Movies" hideSeeAll={true} data={actorMovies} />
         </View>
-      )}
+
+        <View className="mt-6">
+          <Text className="text-3xl text-white font-bold text-center">
+            {actor?.name}
+          </Text>
+          <Text className="text-base text-neutral-500 text-center">
+            {actor?.place_of_birth}
+          </Text>
+        </View>
+
+        <View className="mt-6 mx-3 p-4 flex-row justify-between items-center bg-neutral-700 rounded-full">
+          <View className="border-r-2 border-r-neutral-400 px-2 items-center">
+            <Text className="text-white font-semibold">Gender</Text>
+            <Text className="text-neutral-300 text-sm">
+              {actor?.gender === 1 ? "Male" : "Female"}
+            </Text>
+          </View>
+          <View className="border-r-2 border-r-neutral-400 px-2 items-center">
+            <Text className="text-white font-semibold">Birthday</Text>
+            <Text className="text-neutral-300 text-sm">{actor?.birthday}</Text>
+          </View>
+          <View className="border-r-2 border-r-neutral-400 px-2 items-center">
+            <Text className="text-white font-semibold">Known for</Text>
+            <Text className="text-neutral-300 text-sm">
+              {actor?.known_for_department}
+            </Text>
+          </View>
+          <View className=" px-2 items-center">
+            <Text className="text-white font-semibold">Popularity</Text>
+            <Text className="text-neutral-300 text-sm">
+              {actor?.popularity}
+            </Text>
+          </View>
+        </View>
+
+        <View className="my-6 mx-4 space-y-2">
+          <Text className="text-white text-lg">Biography</Text>
+          <Text className="text-neutral-400 tracking-wide">
+            {actor?.biography || "N/A"}
+          </Text>
+        </View>
+
+        {/* movie list  */}
+        {actorMovies !== null ? (
+          <MovieList title="Movies" data={actorMovies.data} hideSeeAll={true} />
+        ) : null}
+      </View>
     </ScrollView>
   );
 };

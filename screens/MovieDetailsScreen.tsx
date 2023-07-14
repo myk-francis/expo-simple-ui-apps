@@ -25,7 +25,6 @@ import {
   image500,
 } from "../api/movieDB";
 import { RootStackParamList } from "../navigation/AppStack";
-import { StackNavigationProp } from "@react-navigation/stack";
 import type { RouteProp } from "@react-navigation/native";
 import {
   MovieDetailsProp,
