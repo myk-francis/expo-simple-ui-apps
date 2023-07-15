@@ -11,38 +11,34 @@ jest.mock("@expo/vector-icons/AntDesign", () => "AntDesign");
 jest.mock("@expo/vector-icons/Feather", () => "Feather");
 jest.mock("expo-linear-gradient", () => "LinearGradient");
 
+beforeEach(() => {
+  jest.resetAllMocks();
+});
+
+const component = (
+  <NavigationContainer>
+    <MoviesScreen />
+  </NavigationContainer>
+);
+
 describe("MovieScreen", function () {
-  it("should display button for movie app", async () => {
-    const component = (
-      <NavigationContainer>
-        <MoviesScreen />
-      </NavigationContainer>
-    );
-
+  it("should display menu button", async () => {
     render(component);
-
-    // const toClick = await screen.findByTestId("movie-btn");
-    // fireEvent(toClick, "press");
-
     const menuBtn = await screen.getByTestId("menu-btn");
     expect(menuBtn).toBeOnTheScreen();
+  });
 
+  it("should display search button and icon", async () => {
+    render(component);
     const searchBtn = await screen.getByTestId("search-btn");
     expect(searchBtn).toBeOnTheScreen();
+  });
 
+  it("should display movie title for screen", async () => {
+    render(component);
     const movieTitle = await screen.getByTestId("movie-title");
     expect(movieTitle).toHaveTextContent("Movies");
-
-    // expect(screen.toJSON()).toMatchSnapshot();
   });
 
-  it("should redirect to the new screen and display button for movie app", async () => {
-    const component = (
-      <NavigationContainer>
-        <AppStack />
-      </NavigationContainer>
-    );
-
-    // expect(newBody).toBeOnTheScreen();
-  });
+  // expect(screen.toJSON()).toMatchSnapshot();
 });
