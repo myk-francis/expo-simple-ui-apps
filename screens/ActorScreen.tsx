@@ -72,6 +72,7 @@ const ActorScreen = () => {
         className={` flex-row items-center justify-between w-full px-4 ${verticalMargin}`}
       >
         <TouchableOpacity
+          testID="back-btn"
           className="rounded-xl p-1 bg-corn-500"
           onPress={() => navigation.goBack()}
         >
@@ -82,6 +83,7 @@ const ActorScreen = () => {
           onPress={() => toggleFavorite(!isFavorite)}
         >
           <AntDesign
+            testID="fav-btn"
             name={isFavorite ? "hearto" : "heart"}
             size={35}
             color={isFavorite ? "white" : "red"}
@@ -109,6 +111,7 @@ const ActorScreen = () => {
         >
           <View className="items-center rounded-full overflow-hidden h-72 w-72 border-2 border-neutral-500">
             <Image
+              testID="actor-image"
               source={
                 // require("../assets/images/castImage2.png")
                 { uri: image342(person?.profile_path) || fallbackPersonImage }
@@ -120,15 +123,24 @@ const ActorScreen = () => {
         </View>
 
         <View className="mt-6">
-          <Text className="text-3xl text-white font-bold text-center">
+          <Text
+            testID="actor-name"
+            className="text-3xl text-white font-bold text-center"
+          >
             {actor?.name}
           </Text>
-          <Text className="text-base text-neutral-500 text-center">
+          <Text
+            testID="actor-location"
+            className="text-base text-neutral-500 text-center"
+          >
             {actor?.place_of_birth}
           </Text>
         </View>
 
-        <View className="mt-6 mx-3 p-4 flex-row justify-between items-center bg-neutral-700 rounded-full">
+        <View
+          testID="actor-details"
+          className="mt-6 mx-3 p-4 flex-row justify-between items-center bg-neutral-700 rounded-full"
+        >
           <View className="border-r-2 border-r-neutral-400 px-2 items-center">
             <Text className="text-white font-semibold">Gender</Text>
             <Text className="text-neutral-300 text-sm">
@@ -153,7 +165,7 @@ const ActorScreen = () => {
           </View>
         </View>
 
-        <View className="my-6 mx-4 space-y-2">
+        <View testID="actor-biography" className="my-6 mx-4 space-y-2">
           <Text className="text-white text-lg">Biography</Text>
           <Text className="text-neutral-400 tracking-wide">
             {actor?.biography || "N/A"}
