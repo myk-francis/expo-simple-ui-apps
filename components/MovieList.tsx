@@ -26,12 +26,14 @@ const MovieList = ({ title, data, hideSeeAll }: MovieListProps) => {
   const navigation = useNavigation<MovieDetailsScreenProp>();
 
   return (
-    <View className="mb-8 space-y-4">
+    <View className="mb-8 space-y-4" testID="movie-list-component">
       <View className="flex-row items-center justify-between mx-4">
         <Text className="text-white text-xl">{title}</Text>
         {hideSeeAll ? null : (
           <TouchableOpacity>
-            <Text className="text-lg text-corn-500">See All</Text>
+            <Text testID="see-all-btn" className="text-lg text-corn-500">
+              See All
+            </Text>
           </TouchableOpacity>
         )}
       </View>
@@ -46,17 +48,19 @@ const MovieList = ({ title, data, hideSeeAll }: MovieListProps) => {
             key={index}
             className=""
             onPress={() => navigation.navigate("MovieDetailsScreen", item)}
+            testID="navigation-movie-details-screen-btn"
           >
             <View className="space-y-1 mr-4">
               <Image
                 // source={require("../assets/images/moviePoster2.png")}
+                testID="movielist-image"
                 source={{
                   uri: image185(item.poster_path) || fallbackMoviePoster,
                 }}
                 style={{ width: width * 0.33, height: height * 0.22 }}
                 className="rounded-3xl"
               />
-              <Text className="text-neutral-300 ml-1">
+              <Text testID="movielist-title" className="text-neutral-300 ml-1">
                 {item.title.length > 14
                   ? item.title.slice(0, 14) + "..."
                   : item.title}

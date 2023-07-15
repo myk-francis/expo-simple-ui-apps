@@ -16,7 +16,7 @@ const HomeScreen = () => {
         onPress={() => navigation.navigate("MoviesScreen")}
         className="h-10 w-1/2 bg-blue-400 flex items-center justify-center rounded-lg"
       >
-        <Text testID="weather-btn" className=" font-semibold text-white">
+        <Text testID="movie-btn" className=" font-semibold text-white">
           Movie App
         </Text>
       </TouchableOpacity>

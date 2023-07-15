@@ -8,6 +8,7 @@ const { width, height } = Dimensions.get("window");
 const Loading = () => {
   return (
     <View
+      testID="loading-component"
       style={{ width, height }}
       className="flex-1 items-center justify-center bg-neutral-900"
     >

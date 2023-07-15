@@ -11,7 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../navigation/AppStack";
 import { StackNavigationProp } from "@react-navigation/stack";
 import {
-  TrendingMovieProp,
+  MovieProp,
   MovieCardProps,
   TrendingMoviePropList,
 } from "../constants/Types";
@@ -27,8 +27,13 @@ const { width, height } = Dimensions.get("window");
 const MovieCard = ({ item, handleClick }: MovieCardProps) => {
   // console.log("✅ File:TrendingMovies | Function: MovieCard | item:", item);
   return (
-    <TouchableWithoutFeedback className="p-2" onPress={() => handleClick(item)}>
+    <TouchableWithoutFeedback
+      testID="movie-card"
+      className="p-2"
+      onPress={() => handleClick(item)}
+    >
       <Image
+        testID="movie-card-image"
         // source={require("../assets/images/moviePoster1.png")}
         source={{ uri: image500(item.poster_path) }}
         style={{ width: width * 0.6, height: height * 0.4 }}
@@ -45,13 +50,18 @@ const TrendingMovies = ({ trending }: TrendingMoviePropList) => {
   // );
   const navigation = useNavigation<MovieDetailsScreenProp>();
 
-  const handleClick = (item: TrendingMovieProp) => {
+  const handleClick = (item: MovieProp) => {
     navigation.navigate("MovieDetailsScreen", item);
   };
 
   return (
-    <View className="mb-8">
-      <Text className="text-white text-xl mx-4 mb-5">Trending</Text>
+    <View className="mb-8" testID="trending-component">
+      <Text
+        className="text-white text-xl mx-4 mb-5"
+        testID="trending-component-title"
+      >
+        Trending
+      </Text>
       <Carousel
         data={trending}
         renderItem={({ item }) => (

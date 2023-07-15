@@ -78,14 +78,19 @@ const MoviesScreen = () => {
       <StatusBar barStyle="light-content" />
       <SafeAreaView className={`${Platform.OS === "ios" ? "-mb-2" : "mb-3"}`}>
         <View className="flex-row items-center justify-between mx-4">
-          <FontAwesome name="bars" size={30} color="white" />
-          <Text className="text-white text-3xl font-bold">
+          <FontAwesome testID="menu-btn" name="bars" size={30} color="white" />
+          <Text testID="movie-title" className="text-white text-3xl font-bold">
             <Text className="text-corn-500">M</Text>ovies
           </Text>
           <TouchableOpacity
             onPress={() => navigation.navigate("SearchMovieScreen")}
           >
-            <FontAwesome name="search" size={30} color="white" />
+            <FontAwesome
+              testID="search-btn"
+              name="search"
+              size={30}
+              color="white"
+            />
           </TouchableOpacity>
         </View>
       </SafeAreaView>
