@@ -12,6 +12,7 @@ import axios from "axios";
 import { fetchPersonDetails } from "../../api/movieDB";
 import { cleanup } from "@testing-library/react-native";
 import MockAdapter from "axios-mock-adapter";
+import fetchMock from "fetch-mock";
 
 jest.mock("react-native/Libraries/Animated/NativeAnimatedHelper");
 jest.mock("@expo/vector-icons/FontAwesome", () => "FontAwesome");
@@ -21,15 +22,29 @@ jest.mock("expo-linear-gradient", () => "LinearGradient");
 
 const mock = new MockAdapter(axios, { onNoMatch: "throwException" });
 
-beforeEach(() => {
-  jest.resetAllMocks();
+// beforeEach(() => {
+//   jest.resetAllMocks();
+// });
+
+// beforeAll(() => {
+//   jest.useRealTimers();
+//   fetchMock.reset();
+//   // mock.reset();
+// });
+
+const getMockApiResponse = (status: number, data: any = {}) => ({
+  status,
+  body: { data },
 });
 
-beforeAll(() => {
-  mock.reset();
-});
+const mockGetMovies = () => {
+  fetchMock.get(
+    "https://api.themoviedb.org/3/person/20?language=en-US",
+    getMockApiResponse(200, { results: response })
+  );
+};
 
-afterEach(cleanup);
+// afterEach(cleanup);
 
 jest.mock("@react-navigation/native", () => ({
   ...jest.requireActual("@react-navigation/native"),
@@ -85,6 +100,10 @@ const component = (
   </NavigationContainer>
 );
 
+// Mock jest and set the type
+// jest.mock("axios");
+// const mockedAxios = axios as jest.Mocked<typeof axios>;
+
 describe("ActorScreen", function () {
   //   it("success", async () => {
   //     const spyOn = jest.spyOn(console, "log");
@@ -105,13 +124,43 @@ describe("ActorScreen", function () {
   //     spyOn.mockRestore();
   //   });
   it("should initially display loading component", async () => {
-    mock
-      .onGet("https://api.themoviedb.org/3/person/20?language=en-US")
-      .reply(200, response);
+    // jest.useFakeTimers();
+
+    // mock
+    //   .onGet("https://api.themoviedb.org/3/person/20?language=en-US")
+    //   .reply(200, response);
+
+    // mockGetMovies();
 
     render(component);
 
+    // Provide the data object to be returned
+    // mockedAxios.get.mockResolvedValue({
+    //   data: [
+    //     {
+    //       adult: false,
+    //       also_known_as: ["Элизабет Перкинс", "Elizabeth Ann Perkins"],
+    //       biography:
+    //         "Elizabeth Ann Perkins (born November 18, 1960) is an American actress. Her film roles have included About Last Night (1986), Big (1988), Avalon (1990), and He Said, She Said (1991), The Flintstones (1994), Miracle on 34th Street (1994), and her brief voice role as Coral in the Disney/Pixar animated film Finding Nemo (2003). She is also well known for her role as Celia Hodes in the Showtime TV series Weeds, for which she received three Primetime Emmy nominations and two Golden Globe nominations.",
+    //       birthday: "1960-11-18",
+    //       deathday: null,
+    //       gender: 1,
+    //       homepage: null,
+    //       id: 20,
+    //       imdb_id: "nm0001610",
+    //       known_for_department: "Acting",
+    //       name: "Elizabeth Perkins",
+    //       place_of_birth: "Queens, New York City, New York, USA",
+    //       popularity: 23.734,
+    //       profile_path: "/vTWYllD9V76rgv9XAbtkkjjeunG.jpg",
+    //     },
+    //   ],
+    // });
+
     expect(screen.getByTestId("loading-component")).toBeOnTheScreen();
+
+    // jest.runOnlyPendingTimers();
+
     await waitFor(() => {
       expect(screen.getByTestId("loading-component")).not.toBeOnTheScreen();
     });

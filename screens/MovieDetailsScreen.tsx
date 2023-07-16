@@ -92,6 +92,7 @@ const MovieDetailsScreen = () => {
           className={`absolute z-20 flex-row items-center justify-between w-full px-4 ${topMargin}`}
         >
           <TouchableOpacity
+            testID="back-btn"
             className="rounded-xl p-1 bg-corn-500"
             onPress={() => navigation.goBack()}
           >
