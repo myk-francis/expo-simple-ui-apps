@@ -3,7 +3,7 @@ import React from "react";
 
 const JarvisHomeScreen = () => {
   return (
-    <View>
+    <View className="flex flex-1 justify-center items-center bg-white">
       <Text>JarvisHomeScreen</Text>
     </View>
   );

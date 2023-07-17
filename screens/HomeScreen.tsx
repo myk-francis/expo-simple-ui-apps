@@ -29,7 +29,7 @@ const HomeScreen = () => {
 
       <TouchableOpacity
         onPress={() => navigation.navigate("JarvisWelcomeScreen")}
-        className="h-10 w-1/2 bg-blue-400 flex items-center justify-center rounded-lg mb-4"
+        className="h-10 w-1/2 bg-green-400 flex items-center justify-center rounded-lg mb-4"
       >
         <Text testID="jarvis-btn" className=" font-semibold text-white ">
           Jarvis App
