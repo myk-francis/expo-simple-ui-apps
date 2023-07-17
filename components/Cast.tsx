@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
 import React from "react";
-import { CastScreenProps } from "../constants/Types";
+import { CastScreenProps } from "../constants/MovieTypes";
 import { fallbackPersonImage, image185 } from "../api/movieDB";
 
 const Cast = ({ cast, navigation }: CastScreenProps) => {

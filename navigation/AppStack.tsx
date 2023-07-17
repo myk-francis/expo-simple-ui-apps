@@ -4,7 +4,7 @@ import MoviesScreen from "../screens/MoviesScreen";
 import MovieDetailsScreen from "../screens/MovieDetailsScreen";
 import ActorScreen from "../screens/ActorScreen";
 import SearchMovieScreen from "../screens/SearchMovieScreen";
-import { MovieProp, ActorProp, CastProp } from "../constants/Types";
+import { MovieProp, ActorProp, CastProp } from "../constants/MovieTypes";
 import JarvisHomeScreen from "../screens/JarvisHomeScreen";
 import JarvisWelcomeScreen from "../screens/JarvisWelcomeScreen";
 

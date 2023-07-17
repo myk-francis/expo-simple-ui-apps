@@ -20,7 +20,7 @@ import {
   MoviePropList,
   MovieProp,
   TrendingMoviePropList,
-} from "../constants/Types";
+} from "../constants/MovieTypes";
 
 type MoviescreenProp = StackNavigationProp<
   RootStackParamList,

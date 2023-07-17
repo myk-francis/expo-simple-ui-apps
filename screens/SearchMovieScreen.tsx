@@ -17,7 +17,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import Loading from "../components/Loading";
 import { debounce } from "lodash";
 import { fallbackMoviePoster, image185, searchMovies } from "../api/movieDB";
-import { MovieProp } from "../constants/Types";
+import { MovieProp } from "../constants/MovieTypes";
 
 type MovieDetailsScreenProp = StackNavigationProp<
   RootStackParamList,

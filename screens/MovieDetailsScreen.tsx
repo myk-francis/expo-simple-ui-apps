@@ -30,7 +30,7 @@ import {
   MovieDetailsProp,
   CastProp,
   SimilarMoviesProps,
-} from "../constants/Types";
+} from "../constants/MovieTypes";
 
 type MovieDetailsScreenProp = RouteProp<
   RootStackParamList,

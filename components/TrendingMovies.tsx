@@ -14,7 +14,7 @@ import {
   MovieProp,
   MovieCardProps,
   TrendingMoviePropList,
-} from "../constants/Types";
+} from "../constants/MovieTypes";
 import { image500 } from "../api/movieDB";
 
 type MovieDetailsScreenProp = StackNavigationProp<

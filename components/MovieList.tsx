@@ -11,7 +11,7 @@ import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../navigation/AppStack";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { MovieListProps } from "../constants/Types";
+import { MovieListProps } from "../constants/MovieTypes";
 import { fallbackMoviePoster, image185 } from "../api/movieDB";
 
 type MovieDetailsScreenProp = StackNavigationProp<

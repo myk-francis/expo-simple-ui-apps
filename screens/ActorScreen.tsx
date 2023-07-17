@@ -12,10 +12,13 @@ import React from "react";
 import Feather from "@expo/vector-icons/Feather";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useRoute, useNavigation } from "@react-navigation/native";
-import { theme } from "../constants/Constants";
 import MovieList from "../components/MovieList";
 import Loading from "../components/Loading";
-import { MovieProp, ActorMoviesProps, ActorProp } from "../constants/Types";
+import {
+  MovieProp,
+  ActorMoviesProps,
+  ActorProp,
+} from "../constants/MovieTypes";
 import type { RouteProp } from "@react-navigation/native";
 import { RootStackParamList } from "../navigation/AppStack";
 import {
