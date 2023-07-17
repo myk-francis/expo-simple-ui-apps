@@ -49,7 +49,7 @@ const component = (
   </NavigationContainer>
 );
 
-describe("ActorScreen", function () {
+describe("MovieDetailsScreen", function () {
   it("should initially display loading component", async () => {
     render(component);
 

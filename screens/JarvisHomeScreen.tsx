@@ -12,6 +12,8 @@ import Features from "../components/Jarvis/Features";
 import { dummyMessages } from "../constants/dummyData";
 import Entypo from "@expo/vector-icons/Entypo";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import Voice from "@react-native-voice/voice";
+import * as Speech from "expo-speech";
 
 const JarvisHomeScreen = () => {
   const [messages, setMessages] = React.useState<TMessage[] | []>(
@@ -19,14 +21,106 @@ const JarvisHomeScreen = () => {
   );
   const [recording, setRecording] = React.useState(false);
   const [speaking, setSpeaking] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+  const [result, setResult] = React.useState("");
+
+  const JarvisSpeak = (text: string, rate: number) => {
+    Speech.speak(text, {
+      language: "en",
+      pitch: 1,
+      rate: rate,
+      onStart: SpeakingStarted,
+      onDone: SpeakingCompleted,
+      onStopped: StopSpeaking,
+      onError: SpeakingError,
+    });
+  };
+
+  const SpeakingStarted = () => {
+    setSpeaking(true);
+    console.log("speaking");
+  };
+
+  const SpeakingCompleted = () => {
+    console.log("speaking completed");
+  };
+
+  const StopSpeaking = () => {
+    setSpeaking(false);
+    console.log("speaking stopped");
+  };
+
+  const SpeakingError = () => {
+    console.log("❌--> speaking error:");
+  };
 
   const ClearMessages = () => {
     setMessages([]);
   };
 
-  const StopSpeaking = () => {
-    setSpeaking(false);
+  const speechStartHandler = (e: any) => {
+    // Voice.start("en-US");
+    console.log("speech start event", e);
   };
+
+  const speechEndHandler = (e: any) => {
+    setRecording(false);
+    console.log("speech stop event", e);
+  };
+  const speechResultsHandler = (e: any) => {
+    console.log("speech event: ", e);
+    const text = e.value[0];
+    setResult(text);
+  };
+
+  const speechErrorHandler = (e: any) => {
+    console.log("❌--> speech error: ", e);
+  };
+
+  const startRecording = async () => {
+    setRecording(true);
+    Speech.stop();
+    try {
+      await Voice.start("en-US"); // en-US
+    } catch (error) {
+      console.log("❌--> error:", error);
+    }
+  };
+  const stopRecording = async () => {
+    try {
+      await Voice.stop();
+      setRecording(false);
+      // fetchResponse();
+    } catch (error) {
+      console.log("❌--> error:", error);
+    }
+  };
+  const clear = () => {
+    Speech.stop();
+    setSpeaking(false);
+    setLoading(false);
+    setMessages([]);
+  };
+
+  const startTextToSpeach = (message: TMessage) => {
+    if (!message.content.includes("https")) {
+      // playing response with the voice id and voice speed
+      JarvisSpeak(message.content, 0.5);
+    }
+  };
+
+  React.useEffect(() => {
+    // voice handler events
+    Voice.onSpeechStart = speechStartHandler;
+    Voice.onSpeechEnd = speechEndHandler;
+    Voice.onSpeechResults = speechResultsHandler;
+    Voice.onSpeechError = speechErrorHandler;
+
+    return () => {
+      // destroy the voice instance after component unmounts
+      Voice.destroy().then(Voice.removeAllListeners);
+    };
+  });
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -110,14 +204,16 @@ const JarvisHomeScreen = () => {
       {/* recording, clear and stop speech */}
       <View className="flex-row items-center justify-center mb-4">
         {recording ? (
-          <TouchableOpacity>
+          // record stop button
+          <TouchableOpacity onPress={() => stopRecording()}>
             <Image
               source={require("../assets/jarvis/voiceLoading.gif")}
               className="w-20 h-20 rounded-full"
             />
           </TouchableOpacity>
         ) : (
-          <TouchableOpacity>
+          // record start button
+          <TouchableOpacity onPress={() => startRecording()}>
             <Image
               source={require("../assets/jarvis/recordingIcon.png")}
               className="w-20 h-20 rounded-full"
