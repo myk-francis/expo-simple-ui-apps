@@ -1,11 +1,11 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import { NavigationContainer } from "@react-navigation/native";
 import HomeScreen from "../screens/HomeScreen";
 import MoviesScreen from "../screens/MoviesScreen";
 import MovieDetailsScreen from "../screens/MovieDetailsScreen";
 import ActorScreen from "../screens/ActorScreen";
 import SearchMovieScreen from "../screens/SearchMovieScreen";
 import { MovieProp, ActorProp, CastProp } from "../constants/Types";
+import JarvisHomeScreen from "../screens/JarvisHomeScreen";
 
 export type RootStackParamList = {
   HomeScreen: undefined;
@@ -13,6 +13,7 @@ export type RootStackParamList = {
   MovieDetailsScreen: MovieProp;
   ActorScreen: CastProp;
   SearchMovieScreen: undefined;
+  JarvisHomeScreen: undefined;
   // Feed: { sort: 'latest' | 'top' } | undefined;
 };
 
@@ -45,6 +46,11 @@ const AppStack = () => {
         name="SearchMovieScreen"
         options={{ headerShown: false }}
         component={SearchMovieScreen}
+      />
+      <Stack.Screen
+        name="JarvisHomeScreen"
+        options={{ headerShown: false }}
+        component={JarvisHomeScreen}
       />
     </Stack.Navigator>
   );
