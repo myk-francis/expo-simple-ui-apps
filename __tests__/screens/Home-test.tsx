@@ -18,10 +18,11 @@ describe("HomeScreen", function () {
     const btnName = "Movie App";
 
     // Using `findBy` query to wait for asynchronous operation to finish
-    const testOutput = await screen.findByTestId("movie-btn");
+    const testOutput = await screen.findByTestId("jarvis-btn");
 
     // Using `toHaveTextContent` matcher from `@testing-library/jest-native` package.
     expect(testOutput).toHaveTextContent(btnName);
+    expect(screen.findByTestId("jarvis-btn")).toHaveTextContent("Jarvis App");
 
     // expect(screen.toJSON()).toMatchSnapshot();
   });

@@ -6,6 +6,7 @@ import ActorScreen from "../screens/ActorScreen";
 import SearchMovieScreen from "../screens/SearchMovieScreen";
 import { MovieProp, ActorProp, CastProp } from "../constants/Types";
 import JarvisHomeScreen from "../screens/JarvisHomeScreen";
+import JarvisWelcomeScreen from "../screens/JarvisWelcomeScreen";
 
 export type RootStackParamList = {
   HomeScreen: undefined;
@@ -14,7 +15,7 @@ export type RootStackParamList = {
   ActorScreen: CastProp;
   SearchMovieScreen: undefined;
   JarvisHomeScreen: undefined;
-  // Feed: { sort: 'latest' | 'top' } | undefined;
+  JarvisWelcomeScreen: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -51,6 +52,11 @@ const AppStack = () => {
         name="JarvisHomeScreen"
         options={{ headerShown: false }}
         component={JarvisHomeScreen}
+      />
+      <Stack.Screen
+        name="JarvisWelcomeScreen"
+        options={{ headerShown: false }}
+        component={JarvisWelcomeScreen}
       />
     </Stack.Navigator>
   );

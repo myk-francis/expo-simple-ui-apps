@@ -4,20 +4,35 @@ import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../navigation/AppStack";
 import { StackNavigationProp } from "@react-navigation/stack";
 
-type MoviescreenProp = StackNavigationProp<RootStackParamList, "MoviesScreen">;
+type TMoviescreenProp = StackNavigationProp<RootStackParamList, "MoviesScreen">;
+type TJarvisWelcomeScreenProp = StackNavigationProp<
+  RootStackParamList,
+  "JarvisWelcomeScreen"
+>;
 
 const HomeScreen = () => {
-  const navigation = useNavigation<MoviescreenProp>();
+  const navigation = useNavigation<
+    TMoviescreenProp | TJarvisWelcomeScreenProp
+  >();
   return (
     <View className="flex-1 items-center justify-start my-8">
       <Text style={styles.title}>Designs</Text>
       <View style={styles.separator} />
       <TouchableOpacity
         onPress={() => navigation.navigate("MoviesScreen")}
-        className="h-10 w-1/2 bg-blue-400 flex items-center justify-center rounded-lg"
+        className="h-10 w-1/2 bg-blue-400 flex items-center justify-center rounded-lg mb-4"
       >
         <Text testID="movie-btn" className=" font-semibold text-white">
           Movie App
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => navigation.navigate("JarvisWelcomeScreen")}
+        className="h-10 w-1/2 bg-blue-400 flex items-center justify-center rounded-lg mb-4"
+      >
+        <Text testID="jarvis-btn" className=" font-semibold text-white ">
+          Jarvis App
         </Text>
       </TouchableOpacity>
     </View>
