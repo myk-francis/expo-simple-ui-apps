@@ -30,6 +30,12 @@
         "projectId": "10e0a681-0dd4-43de-9cc4-0bfc6c992cff"
       }
     },
-    "plugins": ["@react-native-voice/voice"]
+    "plugins": [
+      "@react-native-voice/voice",
+      {
+        "microphonePermission": "CUSTOM: Allow $(PRODUCT_NAME) to access the microphone",
+        "speechRecognitionPermission": "CUSTOM: Allow $(PRODUCT_NAME) to securely recognize user speech"
+      }
+    ]
   }
 }
