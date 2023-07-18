@@ -10,6 +10,10 @@ import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../navigation/AppStack";
 import { StackNavigationProp } from "@react-navigation/stack";
 
+import axios from "axios";
+import { jarvisAPIKeyBilling } from "../constants/Api";
+import { TMessage } from "../constants/JarvisTypes";
+
 type TJarvisHomeScreenProp = StackNavigationProp<
   RootStackParamList,
   "JarvisHomeScreen"
@@ -17,7 +21,6 @@ type TJarvisHomeScreenProp = StackNavigationProp<
 
 const JarvisWelcomeScreen = () => {
   const navigation = useNavigation<TJarvisHomeScreenProp>();
-
   return (
     <SafeAreaView className="flex flex-1 bg-white justify-around">
       <View className="space-y-2">
