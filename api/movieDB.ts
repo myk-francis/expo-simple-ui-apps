@@ -46,6 +46,9 @@ export const image342 = (path: string) =>
 export const image185 = (path: string) =>
   path ? `https://image.tmdb.org/t/p/w185/${path}` : "";
 
+export const getBackdropPath = (path: string) =>
+  `https://image.tmdb.org/t/p/w370_and_h556_multi_faces${path}`;
+
 const apiCall = async (endpoint: string, params: any) => {
   const options = {
     method: "GET",

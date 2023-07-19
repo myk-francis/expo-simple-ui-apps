@@ -58,8 +58,8 @@ const HomeScreen = () => {
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => navigation.navigate("OnBoardingScreen")}
-        className="h-10 w-1/2 bg-emerald-400 flex items-center justify-center rounded-lg mb-4"
+        onPress={() => navigation.navigate("MoviesAnimationsScreen")}
+        className="h-10 w-1/2 bg-orange-400 flex items-center justify-center rounded-lg mb-4"
       >
         <Text testID="jarvis-btn" className=" font-semibold text-white ">
           Movies Animated

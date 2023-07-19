@@ -14,7 +14,12 @@ import {
 const { width, height } = Dimensions.get("window");
 import { LinearGradient } from "expo-linear-gradient";
 import Loading from "../components/Loading";
-import { fetchUpcomingMovies } from "../api/movieDB";
+import {
+  fallbackMoviePoster,
+  fetchUpcomingMovies,
+  getBackdropPath,
+  image500,
+} from "../api/movieDB";
 import {
   MoviePropList,
   MovieProp,
@@ -27,7 +32,10 @@ const ITEM_SIZE = Platform.OS === "ios" ? width * 0.72 : width * 0.74;
 const EMPTY_ITEM_SIZE = (width - ITEM_SIZE) / 2;
 const BACKDROP_HEIGHT = height * 0.65;
 
-const Rating = ({ rating }: any) => {
+const genres = ["Action", "Romance"];
+
+const Rating = () => {
+  const rating = 10;
   const filledStars = Math.floor(rating / 2);
   const maxStars = Array(5 - filledStars).fill("staro");
   const r = [...Array(filledStars).fill("star"), ...maxStars];
@@ -42,12 +50,12 @@ const Rating = ({ rating }: any) => {
   );
 };
 
-const Genres = ({ genres }: any) => {
+const Genres = () => {
   return (
     <View style={styles.genres}>
       {genres.map((genre: any, i: any) => {
         return (
-          <View key={genre} style={styles.genre}>
+          <View key={i} style={styles.genre}>
             <Text style={styles.genreText}>{genre}</Text>
           </View>
         );
@@ -61,11 +69,11 @@ const Backdrop = ({ movies, scrollX }: any) => {
     <View style={{ height: BACKDROP_HEIGHT, width, position: "absolute" }}>
       <FlatList
         data={movies.reverse()}
-        keyExtractor={(item) => item.key + "-backdrop"}
+        keyExtractor={(item) => item.id + "-backdrop_path"}
         removeClippedSubviews={false}
         contentContainerStyle={{ width, height: BACKDROP_HEIGHT }}
         renderItem={({ item, index }) => {
-          if (!item.backdrop) {
+          if (!item.backdrop_path) {
             return null;
           }
           const translateX = scrollX.interpolate({
@@ -84,11 +92,15 @@ const Backdrop = ({ movies, scrollX }: any) => {
               }}
             >
               <Image
-                source={{ uri: item.backdrop }}
+                source={{
+                  uri:
+                    getBackdropPath(item.backdrop_path) || fallbackMoviePoster,
+                }}
                 style={{
                   width,
                   height: BACKDROP_HEIGHT,
                   position: "absolute",
+                  resizeMode: "cover",
                 }}
               />
             </Animated.View>
@@ -118,11 +130,11 @@ const MoviesAnimationsScreen = () => {
     setLoading(true);
     const data = await fetchUpcomingMovies();
     if (data && data.results) {
-      setUpcoming({ data: data.results });
+      // setUpcoming({ data: data.results });
       setMovies([
-        { key: "empty-left" },
+        { id: "empty-left" },
         ...data?.results,
-        { key: "empty-right" },
+        { id: "empty-right" },
       ]);
     }
     setLoading(false);
@@ -132,7 +144,7 @@ const MoviesAnimationsScreen = () => {
     getUpcomingMovies();
   }, []);
 
-  if (movies.length === 0) {
+  if (movies?.length === 0) {
     return <Loading />;
   }
 
@@ -143,7 +155,7 @@ const MoviesAnimationsScreen = () => {
       <Animated.FlatList
         showsHorizontalScrollIndicator={false}
         data={movies}
-        keyExtractor={(item) => item.key}
+        keyExtractor={(item) => item.id}
         horizontal
         bounces={false}
         decelerationRate={Platform.OS === "ios" ? 0 : 0.98}
@@ -157,7 +169,7 @@ const MoviesAnimationsScreen = () => {
         )}
         scrollEventThrottle={16}
         renderItem={({ item, index }) => {
-          if (!item.poster) {
+          if (!item.backdrop_path) {
             return <View style={{ width: EMPTY_ITEM_SIZE }} />;
           }
 
@@ -170,7 +182,7 @@ const MoviesAnimationsScreen = () => {
           const translateY = scrollX.interpolate({
             inputRange,
             outputRange: [100, 50, 100],
-            extrapolate: "clamp",
+            // extrapolate: "clamp",
           });
 
           return (
@@ -186,16 +198,18 @@ const MoviesAnimationsScreen = () => {
                 }}
               >
                 <Image
-                  source={{ uri: item.poster }}
+                  source={{
+                    uri: image500(item.poster_path) || fallbackMoviePoster,
+                  }}
                   style={styles.posterImage}
                 />
                 <Text style={{ fontSize: 24 }} numberOfLines={1}>
                   {item.title}
                 </Text>
-                <Rating rating={item.rating} />
-                <Genres genres={item.genres} />
+                <Rating />
+                <Genres />
                 <Text style={{ fontSize: 12 }} numberOfLines={3}>
-                  {item.description}
+                  {item.overview}
                 </Text>
               </Animated.View>
             </View>
@@ -216,6 +230,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    backgroundColor: "white",
   },
   paragraph: {
     margin: 24,
@@ -252,7 +267,7 @@ const styles = StyleSheet.create({
     opacity: 0.4,
   },
 
-  ratingNumber: { marginRight: 4, fontFamily: "Menlo", fontSize: 14 },
+  ratingNumber: { marginRight: 4, fontSize: 14 },
   rating: {
     flexDirection: "row",
     alignItems: "center",

@@ -10,13 +10,9 @@ const Loading = () => {
     <View
       testID="loading-component"
       style={{ width, height }}
-      className="flex-1 items-center justify-center bg-neutral-900"
+      className="flex-1 items-center justify-center bg-white"
     >
-      <Progress.CircleSnail
-        thickness={12}
-        size={160}
-        color={theme.background}
-      />
+      <Progress.CircleSnail thickness={12} size={160} color={"orange"} />
     </View>
   );
 };
