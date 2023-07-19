@@ -56,6 +56,15 @@ const HomeScreen = () => {
           OnBoarding App
         </Text>
       </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => navigation.navigate("OnBoardingScreen")}
+        className="h-10 w-1/2 bg-emerald-400 flex items-center justify-center rounded-lg mb-4"
+      >
+        <Text testID="jarvis-btn" className=" font-semibold text-white ">
+          Movies Animated
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };

@@ -9,6 +9,7 @@ import JarvisHomeScreen from "../screens/JarvisHomeScreen";
 import JarvisWelcomeScreen from "../screens/JarvisWelcomeScreen";
 import OnBoardingHomeScreen from "../screens/OnBoardingHomeScreen";
 import OnBoardingScreen from "../screens/OnBoardingScreen";
+import MoviesAnimationsScreen from "../screens/MoviesAnimationsScreen";
 
 export type RootStackParamList = {
   HomeScreen: undefined;
@@ -20,6 +21,7 @@ export type RootStackParamList = {
   JarvisWelcomeScreen: undefined;
   OnBoardingScreen: undefined;
   OnBoardingHomeScreen: undefined;
+  MoviesAnimationsScreen: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -71,6 +73,11 @@ const AppStack = () => {
         name="OnBoardingScreen"
         options={{ headerShown: false }}
         component={OnBoardingScreen}
+      />
+      <Stack.Screen
+        name="MoviesAnimationsScreen"
+        options={{ headerShown: false }}
+        component={MoviesAnimationsScreen}
       />
     </Stack.Navigator>
   );
