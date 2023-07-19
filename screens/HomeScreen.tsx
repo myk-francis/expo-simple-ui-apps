@@ -5,6 +5,14 @@ import { RootStackParamList } from "../navigation/AppStack";
 import { StackNavigationProp } from "@react-navigation/stack";
 
 type TMoviescreenProp = StackNavigationProp<RootStackParamList, "MoviesScreen">;
+type TOnBoardingScreenProp = StackNavigationProp<
+  RootStackParamList,
+  "OnBoardingScreen"
+>;
+type TOnBoardingHomeScreenProp = StackNavigationProp<
+  RootStackParamList,
+  "OnBoardingHomeScreen"
+>;
 type TJarvisWelcomeScreenProp = StackNavigationProp<
   RootStackParamList,
   "JarvisWelcomeScreen"
@@ -12,8 +20,12 @@ type TJarvisWelcomeScreenProp = StackNavigationProp<
 
 const HomeScreen = () => {
   const navigation = useNavigation<
-    TMoviescreenProp | TJarvisWelcomeScreenProp
+    | TMoviescreenProp
+    | TJarvisWelcomeScreenProp
+    | TOnBoardingScreenProp
+    | TOnBoardingHomeScreenProp
   >();
+
   return (
     <View className="flex-1 items-center justify-start my-8">
       <Text style={styles.title}>Designs</Text>
@@ -33,6 +45,15 @@ const HomeScreen = () => {
       >
         <Text testID="jarvis-btn" className=" font-semibold text-white ">
           Jarvis App
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => navigation.navigate("OnBoardingScreen")}
+        className="h-10 w-1/2 bg-cyan-400 flex items-center justify-center rounded-lg mb-4"
+      >
+        <Text testID="jarvis-btn" className=" font-semibold text-white ">
+          OnBoarding App
         </Text>
       </TouchableOpacity>
     </View>
