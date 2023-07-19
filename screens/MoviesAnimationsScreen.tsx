@@ -158,7 +158,7 @@ const MoviesAnimationsScreen = () => {
         keyExtractor={(item) => item.id}
         horizontal
         bounces={false}
-        decelerationRate={Platform.OS === "ios" ? 0 : 0.98}
+        decelerationRate={Platform.OS === "ios" ? 0 : 0}
         renderToHardwareTextureAndroid
         contentContainerStyle={{ alignItems: "center" }}
         snapToInterval={ITEM_SIZE}
