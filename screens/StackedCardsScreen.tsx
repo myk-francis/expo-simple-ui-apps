@@ -6,10 +6,18 @@ import { StatusBar } from "expo-status-bar";
 import {
   Directions,
   Gesture,
+  GestureDetector,
   GestureHandlerRootView,
 } from "react-native-gesture-handler";
 import { locationImage, dummyStackedCardsData } from "../constants/dummyData";
-import { useSharedValue } from "react-native-reanimated";
+import Animated, {
+  Extrapolate,
+  SharedValue,
+  interpolate,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 
 const duration = 300;
 const _size = width * 0.9;
@@ -32,13 +40,55 @@ const Card = ({
   info,
   index,
   totalLength,
+  activeIndex,
 }: {
   totalLength: number;
   index: number;
   info: (typeof dummyStackedCardsData)[0];
+  activeIndex: SharedValue<number>;
 }) => {
+  const stylez = useAnimatedStyle(() => {
+    return {
+      position: "absolute",
+      zIndex: totalLength - index,
+      opacity: interpolate(
+        activeIndex.value,
+        [index - 1, index, index + 1],
+        [1 - 1 / maxVisibleItems, 1, 1]
+      ),
+      shadowOpacity: interpolate(
+        activeIndex.value,
+        [index - 1, index, index + 1],
+        [0, 0, 1],
+        {
+          extrapolateRight: Extrapolate.CLAMP,
+        }
+      ),
+      transform: [
+        {
+          translateY: interpolate(
+            activeIndex.value,
+            [index - 1, index, index + 1],
+            [-layout.cardsGap, 0, layout.height - layout.cardsGap],
+            {
+              // extrapolateLeft: Extrapolate.CLAMP,
+              extrapolateRight: Extrapolate.EXTEND,
+            }
+          ),
+        },
+        {
+          scale: interpolate(
+            activeIndex.value,
+            [index - 1, index, index + 1],
+            [0.96, 1, 1]
+          ),
+        },
+      ],
+    };
+  });
+
   return (
-    <View style={[styles.card]}>
+    <Animated.View style={[styles.card, stylez]}>
       <Text
         style={[
           styles.title,
@@ -72,7 +122,7 @@ const Card = ({
         </View>
       </View>
       <Image source={{ uri: locationImage }} style={styles.locationImage} />
-    </View>
+    </Animated.View>
   );
 };
 
@@ -82,36 +132,51 @@ const StackedCardsScreen = () => {
   const flingUp = Gesture.Fling()
     .direction(Directions.UP)
     .onStart(() => {
+      if (activeIndex.value === 0) return;
+
+      activeIndex.value = withTiming(activeIndex.value - 1, {
+        duration: duration,
+      });
       console.log("fling up");
     });
+
   const flingDown = Gesture.Fling()
     .direction(Directions.DOWN)
     .onStart(() => {
       console.log("fling down");
+
+      if (activeIndex.value === dummyStackedCardsData.length) return;
+
+      activeIndex.value = withTiming(activeIndex.value + 1, {
+        duration: duration,
+      });
     });
   return (
     <GestureHandlerRootView style={styles.container}>
       <StatusBar hidden />
-      <View
-        style={{
-          alignItems: "center",
-          flex: 1,
-          justifyContent: "flex-end",
-          marginBottom: layout.cardsGap * 2,
-        }}
-        pointerEvents="box-none"
-      >
-        {dummyStackedCardsData.slice(0, 1).map((c, index) => {
-          return (
-            <Card
-              info={c}
-              key={c.id}
-              index={index}
-              totalLength={dummyStackedCardsData.length - 1}
-            />
-          );
-        })}
-      </View>
+      <GestureDetector gesture={Gesture.Exclusive(flingUp, flingDown)}>
+        <View
+          style={{
+            alignItems: "center",
+            flex: 1,
+            justifyContent: "flex-end",
+            marginBottom: layout.cardsGap * 2,
+          }}
+          pointerEvents="box-none"
+        >
+          {dummyStackedCardsData.map((c, index) => {
+            return (
+              <Card
+                activeIndex={activeIndex}
+                info={c}
+                key={c.id}
+                index={index}
+                totalLength={dummyStackedCardsData.length - 1}
+              />
+            );
+          })}
+        </View>
+      </GestureDetector>
     </GestureHandlerRootView>
   );
 };
@@ -131,6 +196,15 @@ const styles = StyleSheet.create({
     height: layout.height,
     padding: layout.spacing,
     backgroundColor: colors.light,
+
+    shadowColor: colors.dark,
+    shadowRadius: 10,
+    shadowOpacity: 1,
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    elevation: 5,
   },
   title: { fontSize: 32, fontWeight: "600" },
   subtitle: {},

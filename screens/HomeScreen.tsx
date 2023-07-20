@@ -25,6 +25,10 @@ type TStackedCardsScreenProp = StackNavigationProp<
   RootStackParamList,
   "StackedCardsScreen"
 >;
+type THeadphonesScreenProp = StackNavigationProp<
+  RootStackParamList,
+  "HeadphonesScreen"
+>;
 
 const HomeScreen = () => {
   const navigation = useNavigation<
@@ -34,6 +38,7 @@ const HomeScreen = () => {
     | TOnBoardingHomeScreenProp
     | TPinCodeScreenProp
     | TStackedCardsScreenProp
+    | THeadphonesScreenProp
   >();
 
   return (
@@ -85,6 +90,15 @@ const HomeScreen = () => {
       >
         <Text testID="stacked-cards-btn" className=" font-semibold text-white ">
           Stacked Cards
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => navigation.navigate("HeadphonesScreen")}
+        className="h-10 w-1/2 bg-purple-400 flex items-center justify-center rounded-lg mb-4"
+      >
+        <Text testID="headphones-btn" className=" font-semibold text-white ">
+          Headphones
         </Text>
       </TouchableOpacity>
     </View>

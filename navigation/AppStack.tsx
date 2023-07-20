@@ -12,6 +12,7 @@ import OnBoardingScreen from "../screens/OnBoardingScreen";
 import MoviesAnimationsScreen from "../screens/MoviesAnimationsScreen";
 import PinCodeScreen from "../screens/PinCodeScreen";
 import StackedCardsScreen from "../screens/StackedCardsScreen";
+import HeadphonesScreen from "../screens/HeadphonesScreen";
 
 export type RootStackParamList = {
   HomeScreen: undefined;
@@ -26,6 +27,7 @@ export type RootStackParamList = {
   MoviesAnimationsScreen: undefined;
   PinCodeScreen: undefined;
   StackedCardsScreen: undefined;
+  HeadphonesScreen: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -92,6 +94,11 @@ const AppStack = () => {
         name="StackedCardsScreen"
         options={{ headerShown: false }}
         component={StackedCardsScreen}
+      />
+      <Stack.Screen
+        name="HeadphonesScreen"
+        options={{ headerShown: false }}
+        component={HeadphonesScreen}
       />
     </Stack.Navigator>
   );
