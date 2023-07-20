@@ -17,6 +17,10 @@ type TJarvisWelcomeScreenProp = StackNavigationProp<
   RootStackParamList,
   "JarvisWelcomeScreen"
 >;
+type TPinCodeScreenProp = StackNavigationProp<
+  RootStackParamList,
+  "PinCodeScreen"
+>;
 
 const HomeScreen = () => {
   const navigation = useNavigation<
@@ -24,6 +28,7 @@ const HomeScreen = () => {
     | TJarvisWelcomeScreenProp
     | TOnBoardingScreenProp
     | TOnBoardingHomeScreenProp
+    | TPinCodeScreenProp
   >();
 
   return (
@@ -52,7 +57,7 @@ const HomeScreen = () => {
         onPress={() => navigation.navigate("OnBoardingScreen")}
         className="h-10 w-1/2 bg-cyan-400 flex items-center justify-center rounded-lg mb-4"
       >
-        <Text testID="jarvis-btn" className=" font-semibold text-white ">
+        <Text testID="onboarding-btn" className=" font-semibold text-white ">
           OnBoarding App
         </Text>
       </TouchableOpacity>
@@ -61,8 +66,20 @@ const HomeScreen = () => {
         onPress={() => navigation.navigate("MoviesAnimationsScreen")}
         className="h-10 w-1/2 bg-orange-400 flex items-center justify-center rounded-lg mb-4"
       >
-        <Text testID="jarvis-btn" className=" font-semibold text-white ">
+        <Text
+          testID="movies-animated-btn"
+          className=" font-semibold text-white "
+        >
           Movies Animated
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => navigation.navigate("PinCodeScreen")}
+        className="h-10 w-1/2 bg-red-400 flex items-center justify-center rounded-lg mb-4"
+      >
+        <Text testID="pincode-btn" className=" font-semibold text-white ">
+          Pin Code
         </Text>
       </TouchableOpacity>
     </View>
