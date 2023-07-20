@@ -21,6 +21,10 @@ type TPinCodeScreenProp = StackNavigationProp<
   RootStackParamList,
   "PinCodeScreen"
 >;
+type TStackedCardsScreenProp = StackNavigationProp<
+  RootStackParamList,
+  "StackedCardsScreen"
+>;
 
 const HomeScreen = () => {
   const navigation = useNavigation<
@@ -29,6 +33,7 @@ const HomeScreen = () => {
     | TOnBoardingScreenProp
     | TOnBoardingHomeScreenProp
     | TPinCodeScreenProp
+    | TStackedCardsScreenProp
   >();
 
   return (
@@ -75,11 +80,11 @@ const HomeScreen = () => {
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => navigation.navigate("PinCodeScreen")}
-        className="h-10 w-1/2 bg-red-400 flex items-center justify-center rounded-lg mb-4"
+        onPress={() => navigation.navigate("StackedCardsScreen")}
+        className="h-10 w-1/2 bg-purple-400 flex items-center justify-center rounded-lg mb-4"
       >
-        <Text testID="pincode-btn" className=" font-semibold text-white ">
-          Pin Code
+        <Text testID="stacked-cards-btn" className=" font-semibold text-white ">
+          Stacked Cards
         </Text>
       </TouchableOpacity>
     </View>
