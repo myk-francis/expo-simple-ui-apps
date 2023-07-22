@@ -10,6 +10,7 @@ import {
   Dimensions,
   StyleSheet,
   TouchableOpacity,
+  Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 const { width, height } = Dimensions.get("screen");
@@ -95,7 +96,7 @@ const Content = ({ item }: any) => {
 const AdvancedCoroselScreen = () => {
   const scrollX = React.useRef(new Animated.Value(0)).current;
   const progress = Animated.modulo(Animated.divide(scrollX, width), width);
-  const [index, setIndex] = React.useState(0);
+  const [itemIndex, setItemIndex] = React.useState(0);
   const ref = React.useRef(null as any);
   return (
     <View style={{ backgroundColor: "#A5F1FA", flex: 1 }}>
@@ -119,7 +120,7 @@ const AdvancedCoroselScreen = () => {
               paddingHorizontal: SPACING * 2,
             }}
             onMomentumScrollEnd={(e) => {
-              setIndex(Math.floor(e.nativeEvent.contentOffset.x / width));
+              setItemIndex(Math.floor(e.nativeEvent.contentOffset.x / width));
             }}
             showsHorizontalScrollIndicator={false}
             renderItem={({ item, index }) => {
@@ -236,9 +237,18 @@ const AdvancedCoroselScreen = () => {
           }}
         >
           <TouchableOpacity
-            disabled={index === 0}
-            style={{ opacity: index === 0 ? 0.2 : 1 }}
-            onPress={() => {}}
+            disabled={itemIndex === 0}
+            style={{ opacity: itemIndex === 0 ? 0.2 : 1 }}
+            onPress={() => {
+              ref?.current?.scrollToOffset({
+                offset: (itemIndex - 1) * width,
+                animated: true,
+              });
+
+              if (Platform.OS === "android") {
+                setItemIndex(itemIndex - 1);
+              }
+            }}
           >
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <AntDesign name="swapleft" size={42} color="black" />
@@ -246,13 +256,17 @@ const AdvancedCoroselScreen = () => {
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            disabled={index === DATA.length - 1}
-            style={{ opacity: index === DATA.length - 1 ? 0.2 : 1 }}
+            disabled={itemIndex === DATA.length - 1}
+            style={{ opacity: itemIndex === DATA.length - 1 ? 0.2 : 1 }}
             onPress={() => {
               ref?.current?.scrollToOffset({
-                offset: (index + 1) * width,
+                offset: (itemIndex + 1) * width,
                 animated: true,
               });
+
+              if (Platform.OS === "android") {
+                setItemIndex(itemIndex + 1);
+              }
             }}
           >
             <View style={{ flexDirection: "row", alignItems: "center" }}>
