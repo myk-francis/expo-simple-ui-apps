@@ -112,7 +112,16 @@ const HomeScreen = () => {
         className="h-10 w-1/2 bg-emerald-400 flex items-center justify-center rounded-lg mb-4"
       >
         <Text testID="3d-btn" className=" font-semibold text-white ">
-          3D Corosel
+          3D Carousel
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => navigation.navigate("SlickCarouselScreen")}
+        className="h-10 w-1/2 bg-lime-400 flex items-center justify-center rounded-lg mb-4"
+      >
+        <Text testID="slick-btn" className=" font-semibold text-white ">
+          Slick Carousel
         </Text>
       </TouchableOpacity>
     </View>
