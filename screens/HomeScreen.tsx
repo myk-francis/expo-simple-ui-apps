@@ -29,6 +29,10 @@ type THeadphonesScreenProp = StackNavigationProp<
   RootStackParamList,
   "HeadphonesScreen"
 >;
+type TAdvancedCoroselScreenProp = StackNavigationProp<
+  RootStackParamList,
+  "AdvancedCoroselScreen"
+>;
 
 const HomeScreen = () => {
   const navigation = useNavigation<
@@ -39,6 +43,7 @@ const HomeScreen = () => {
     | TPinCodeScreenProp
     | TStackedCardsScreenProp
     | THeadphonesScreenProp
+    | TAdvancedCoroselScreenProp
   >();
 
   return (
@@ -99,6 +104,15 @@ const HomeScreen = () => {
       >
         <Text testID="headphones-btn" className=" font-semibold text-white ">
           Headphones
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => navigation.navigate("AdvancedCoroselScreen")}
+        className="h-10 w-1/2 bg-emerald-400 flex items-center justify-center rounded-lg mb-4"
+      >
+        <Text testID="3d-btn" className=" font-semibold text-white ">
+          3D Corosel
         </Text>
       </TouchableOpacity>
     </View>
