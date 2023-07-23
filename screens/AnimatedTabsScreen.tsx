@@ -100,7 +100,7 @@ const Tabs = ({ scrollX, onItempress }: any) => {
         }
       );
     });
-  }, []);
+  }, [data]);
 
   return (
     <View style={{ position: "absolute", top: 100, width }}>
