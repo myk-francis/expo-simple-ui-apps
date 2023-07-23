@@ -43,6 +43,10 @@ type TParallaxEffectScreenProp = StackNavigationProp<
   RootStackParamList,
   "ParallaxEffectScreen"
 >;
+type TAnimatedTabsScreenProp = StackNavigationProp<
+  RootStackParamList,
+  "AnimatedTabsScreen"
+>;
 
 const HomeScreen = () => {
   const navigation = useNavigation<
@@ -55,6 +59,7 @@ const HomeScreen = () => {
     | THeadphonesScreenProp
     | TAdvancedCoroselScreenProp
     | TParallaxEffectScreenProp
+    | TAnimatedTabsScreenProp
   >();
 
   return (
@@ -150,6 +155,15 @@ const HomeScreen = () => {
       >
         <Text testID="parallax-btn" className=" font-semibold text-white ">
           Parallax Effect
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => navigation.navigate("AnimatedTabsScreen")}
+        className="h-10 w-1/2 bg-teal-400 flex items-center justify-center rounded-lg mb-4"
+      >
+        <Text testID="tabls-btn" className=" font-semibold text-white ">
+          Animated Tabs
         </Text>
       </TouchableOpacity>
     </ScrollView>
