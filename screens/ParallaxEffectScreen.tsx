@@ -35,23 +35,93 @@ const data = images.map((image, index) => ({
 }));
 
 const ParallaxEffectScreen = () => {
+  const scrollX = React.useRef(new Animated.Value(0)).current;
   return (
     <View style={styles.container}>
       <StatusBar hidden />
-      <Text style={{ fontSize: 114 }}>❤️</Text>
-      <Text
-        style={{
-          fontFamily: "Menlo",
-          marginTop: 10,
-          fontWeight: "800",
-          fontSize: 32,
+      <Animated.FlatList
+        data={data}
+        keyExtractor={(item) => item.key}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        pagingEnabled
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+          { useNativeDriver: true }
+        )}
+        renderItem={({ item, index }) => {
+          const inputRange = [
+            (index - 1) * width,
+            index * width,
+            (index + 1) * width,
+          ];
+          const translateX = scrollX.interpolate({
+            inputRange,
+            outputRange: [-width * 0.7, 0, width * 0.7],
+          });
+          return (
+            <View
+              style={{
+                width: width,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <View
+                style={{
+                  borderRadius: 18,
+                  //   borderWidth: 10,
+                  //   borderColor: "white",
+                  padding: 12,
+                  backgroundColor: "white",
+                  shadowColor: "#000",
+                  shadowOffset: {
+                    width: 0,
+                    height: 2,
+                  },
+                  shadowOpacity: 0.25,
+                  shadowRadius: 3.84,
+
+                  elevation: 5,
+                }}
+              >
+                <View
+                  style={{
+                    width: ITEM_WIDTH,
+                    height: ITEM_HEIGHT,
+                    overflow: "hidden",
+                    alignItems: "center",
+                    borderRadius: 10,
+                  }}
+                >
+                  <Animated.Image
+                    style={{
+                      width: ITEM_WIDTH * 1.4,
+                      height: ITEM_HEIGHT,
+                      resizeMode: "cover",
+                      transform: [{ translateX }],
+                    }}
+                    source={{ uri: item.photo }}
+                  />
+                </View>
+                <Image
+                  source={{ uri: item.avatar_url }}
+                  style={{
+                    width: 60,
+                    height: 60,
+                    borderRadius: 60,
+                    borderWidth: 4,
+                    borderColor: "white",
+                    position: "absolute",
+                    bottom: -30,
+                    right: 60,
+                  }}
+                />
+              </View>
+            </View>
+          );
         }}
-      >
-        Expo
-      </Text>
-      <Text style={{ fontFamily: "Menlo", fontStyle: "italic", fontSize: 18 }}>
-        (expo.io)
-      </Text>
+      />
     </View>
   );
 };

@@ -58,7 +58,15 @@ const HomeScreen = () => {
   >();
 
   return (
-    <ScrollView className="flex-1 items-center justify-start my-8">
+    <ScrollView
+      contentContainerStyle={{
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "flex-start",
+        marginVertical: 20,
+      }}
+      className=""
+    >
       <Text style={styles.title}>Designs</Text>
       <View style={styles.separator} />
       <TouchableOpacity
@@ -137,11 +145,11 @@ const HomeScreen = () => {
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => navigation.navigate("SlickCarouselScreen")}
+        onPress={() => navigation.navigate("ParallaxEffectScreen")}
         className="h-10 w-1/2 bg-sky-500 flex items-center justify-center rounded-lg mb-4"
       >
         <Text testID="parallax-btn" className=" font-semibold text-white ">
-          Slick Carousel
+          Parallax Effect
         </Text>
       </TouchableOpacity>
     </ScrollView>
