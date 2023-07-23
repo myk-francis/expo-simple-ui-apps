@@ -15,6 +15,7 @@ import StackedCardsScreen from "../screens/StackedCardsScreen";
 import HeadphonesScreen from "../screens/HeadphonesScreen";
 import AdvancedCoroselScreen from "../screens/AdvancedCoroselScreen";
 import SlickCarouselScreen from "../screens/SlickCarouselScreen";
+import ParallaxEffectScreen from "../screens/ParallaxEffectScreen";
 
 export type RootStackParamList = {
   HomeScreen: undefined;
@@ -32,6 +33,7 @@ export type RootStackParamList = {
   HeadphonesScreen: undefined;
   AdvancedCoroselScreen: undefined;
   SlickCarouselScreen: undefined;
+  ParallaxEffectScreen: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -113,6 +115,11 @@ const AppStack = () => {
         name="SlickCarouselScreen"
         options={{ headerShown: false }}
         component={SlickCarouselScreen}
+      />
+      <Stack.Screen
+        name="ParallaxEffectScreen"
+        options={{ headerShown: false }}
+        component={ParallaxEffectScreen}
       />
     </Stack.Navigator>
   );

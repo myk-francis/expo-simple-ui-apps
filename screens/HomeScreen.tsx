@@ -1,4 +1,10 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../navigation/AppStack";
@@ -33,6 +39,10 @@ type TAdvancedCoroselScreenProp = StackNavigationProp<
   RootStackParamList,
   "AdvancedCoroselScreen"
 >;
+type TParallaxEffectScreenProp = StackNavigationProp<
+  RootStackParamList,
+  "ParallaxEffectScreen"
+>;
 
 const HomeScreen = () => {
   const navigation = useNavigation<
@@ -44,10 +54,11 @@ const HomeScreen = () => {
     | TStackedCardsScreenProp
     | THeadphonesScreenProp
     | TAdvancedCoroselScreenProp
+    | TParallaxEffectScreenProp
   >();
 
   return (
-    <View className="flex-1 items-center justify-start my-8">
+    <ScrollView className="flex-1 items-center justify-start my-8">
       <Text style={styles.title}>Designs</Text>
       <View style={styles.separator} />
       <TouchableOpacity
@@ -124,7 +135,16 @@ const HomeScreen = () => {
           Slick Carousel
         </Text>
       </TouchableOpacity>
-    </View>
+
+      <TouchableOpacity
+        onPress={() => navigation.navigate("SlickCarouselScreen")}
+        className="h-10 w-1/2 bg-sky-500 flex items-center justify-center rounded-lg mb-4"
+      >
+        <Text testID="parallax-btn" className=" font-semibold text-white ">
+          Slick Carousel
+        </Text>
+      </TouchableOpacity>
+    </ScrollView>
   );
 };
 
