@@ -19,6 +19,7 @@ import ParallaxEffectScreen from "../screens/ParallaxEffectScreen";
 import AnimatedTabsScreen from "../screens/AnimatedTabsScreen";
 import StackedCardsScreenTwo from "../screens/StackedCardsScreenTwo";
 import DonutChartScreen from "../screens/DonutChartScreen";
+import AnotherCorouselScreen from "../screens/AnotherCorouselScreen";
 
 export type RootStackParamList = {
   HomeScreen: undefined;
@@ -40,6 +41,7 @@ export type RootStackParamList = {
   AnimatedTabsScreen: undefined;
   StackedCardsScreenTwo: undefined;
   DonutChartScreen: undefined;
+  AnotherCorouselScreen: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -141,6 +143,11 @@ const AppStack = () => {
         name="DonutChartScreen"
         options={{ headerShown: false }}
         component={DonutChartScreen}
+      />
+      <Stack.Screen
+        name="AnotherCorouselScreen"
+        options={{ headerShown: false }}
+        component={AnotherCorouselScreen}
       />
     </Stack.Navigator>
   );
