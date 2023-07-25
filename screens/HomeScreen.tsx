@@ -51,6 +51,10 @@ type TStackedCardsScreenTwoProp = StackNavigationProp<
   RootStackParamList,
   "StackedCardsScreenTwo"
 >;
+type TDonutChartScreenProp = StackNavigationProp<
+  RootStackParamList,
+  "DonutChartScreen"
+>;
 
 const HomeScreen = () => {
   const navigation = useNavigation<
@@ -65,6 +69,7 @@ const HomeScreen = () => {
     | TParallaxEffectScreenProp
     | TAnimatedTabsScreenProp
     | TStackedCardsScreenTwoProp
+    | TDonutChartScreenProp
   >();
 
   return (
@@ -178,6 +183,15 @@ const HomeScreen = () => {
       >
         <Text testID="tabls-btn" className=" font-semibold text-white ">
           Stacked Cards 2
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => navigation.navigate("DonutChartScreen")}
+        className="h-10 w-1/2 bg-violet-400 flex items-center justify-center rounded-lg mb-4"
+      >
+        <Text testID="tabls-btn" className=" font-semibold text-white ">
+          Donut Chart
         </Text>
       </TouchableOpacity>
     </ScrollView>
