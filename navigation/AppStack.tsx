@@ -17,6 +17,7 @@ import AdvancedCoroselScreen from "../screens/AdvancedCoroselScreen";
 import SlickCarouselScreen from "../screens/SlickCarouselScreen";
 import ParallaxEffectScreen from "../screens/ParallaxEffectScreen";
 import AnimatedTabsScreen from "../screens/AnimatedTabsScreen";
+import StackedCardsScreenTwo from "../screens/StackedCardsScreenTwo";
 
 export type RootStackParamList = {
   HomeScreen: undefined;
@@ -36,6 +37,7 @@ export type RootStackParamList = {
   SlickCarouselScreen: undefined;
   ParallaxEffectScreen: undefined;
   AnimatedTabsScreen: undefined;
+  StackedCardsScreenTwo: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -127,6 +129,11 @@ const AppStack = () => {
         name="AnimatedTabsScreen"
         options={{ headerShown: false }}
         component={AnimatedTabsScreen}
+      />
+      <Stack.Screen
+        name="StackedCardsScreenTwo"
+        options={{ headerShown: false }}
+        component={StackedCardsScreenTwo}
       />
     </Stack.Navigator>
   );

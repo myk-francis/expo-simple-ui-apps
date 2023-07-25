@@ -47,6 +47,10 @@ type TAnimatedTabsScreenProp = StackNavigationProp<
   RootStackParamList,
   "AnimatedTabsScreen"
 >;
+type TStackedCardsScreenTwoProp = StackNavigationProp<
+  RootStackParamList,
+  "StackedCardsScreenTwo"
+>;
 
 const HomeScreen = () => {
   const navigation = useNavigation<
@@ -60,6 +64,7 @@ const HomeScreen = () => {
     | TAdvancedCoroselScreenProp
     | TParallaxEffectScreenProp
     | TAnimatedTabsScreenProp
+    | TStackedCardsScreenTwoProp
   >();
 
   return (
@@ -164,6 +169,15 @@ const HomeScreen = () => {
       >
         <Text testID="tabls-btn" className=" font-semibold text-white ">
           Animated Tabs
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => navigation.navigate("StackedCardsScreenTwo")}
+        className="h-10 w-1/2 bg-indigo-400 flex items-center justify-center rounded-lg mb-4"
+      >
+        <Text testID="tabls-btn" className=" font-semibold text-white ">
+          Stacked Cards 2
         </Text>
       </TouchableOpacity>
     </ScrollView>
