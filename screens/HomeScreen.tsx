@@ -59,6 +59,10 @@ type TAnotherCorouselScreenProp = StackNavigationProp<
   RootStackParamList,
   "AnotherCorouselScreen"
 >;
+type TSyncronisedFlatlistsScreenProp = StackNavigationProp<
+  RootStackParamList,
+  "SyncronisedFlatlistsScreen"
+>;
 
 const HomeScreen = () => {
   const navigation = useNavigation<
@@ -75,6 +79,7 @@ const HomeScreen = () => {
     | TStackedCardsScreenTwoProp
     | TDonutChartScreenProp
     | TAnotherCorouselScreenProp
+    | TSyncronisedFlatlistsScreenProp
   >();
 
   return (
@@ -212,6 +217,18 @@ const HomeScreen = () => {
             className=" font-semibold text-white "
           >
             Another Corousel
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => navigation.navigate("SyncronisedFlatlistsScreen")}
+          className="h-10 w-1/2 bg-pink-400 flex items-center justify-center rounded-lg mb-4"
+        >
+          <Text
+            testID="another-corousel-btn"
+            className=" font-semibold text-white "
+          >
+            Sync Lists
           </Text>
         </TouchableOpacity>
       </ScrollView>
