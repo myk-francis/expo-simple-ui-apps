@@ -63,6 +63,10 @@ type TSyncronisedFlatlistsScreenProp = StackNavigationProp<
   RootStackParamList,
   "SyncronisedFlatlistsScreen"
 >;
+type TCustomDrawerScreenProp = StackNavigationProp<
+  RootStackParamList,
+  "CustomDrawerScreen"
+>;
 
 const HomeScreen = () => {
   const navigation = useNavigation<
@@ -80,6 +84,7 @@ const HomeScreen = () => {
     | TDonutChartScreenProp
     | TAnotherCorouselScreenProp
     | TSyncronisedFlatlistsScreenProp
+    | TCustomDrawerScreenProp
   >();
 
   return (
@@ -229,6 +234,18 @@ const HomeScreen = () => {
             className=" font-semibold text-white "
           >
             Sync Lists
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => navigation.navigate("CustomDrawerScreen")}
+          className="h-10 w-1/2 bg-rose-400 flex items-center justify-center rounded-lg mb-4"
+        >
+          <Text
+            testID="another-corousel-btn"
+            className=" font-semibold text-white "
+          >
+            Custom Drawer
           </Text>
         </TouchableOpacity>
       </ScrollView>
