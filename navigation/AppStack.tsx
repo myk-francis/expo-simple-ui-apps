@@ -21,7 +21,7 @@ import StackedCardsScreenTwo from "../screens/StackedCardsScreenTwo";
 import DonutChartScreen from "../screens/DonutChartScreen";
 import AnotherCorouselScreen from "../screens/AnotherCorouselScreen";
 import SyncronisedFlatlistsScreen from "../screens/SyncronisedFlatlistsScreen";
-import CustomDrawerScreen from "../screens/CustomDrawerScreen";
+import TransitionScreenOne from "../screens/TransitionScreenOne";
 
 export type RootStackParamList = {
   HomeScreen: undefined;
@@ -45,7 +45,7 @@ export type RootStackParamList = {
   DonutChartScreen: undefined;
   AnotherCorouselScreen: undefined;
   SyncronisedFlatlistsScreen: undefined;
-  CustomDrawerScreen: undefined;
+  TransitionScreenOne: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -159,9 +159,9 @@ const AppStack = () => {
         component={SyncronisedFlatlistsScreen}
       />
       <Stack.Screen
-        name="CustomDrawerScreen"
+        name="TransitionScreenOne"
         options={{ headerShown: false }}
-        component={CustomDrawerScreen}
+        component={TransitionScreenOne}
       />
     </Stack.Navigator>
   );

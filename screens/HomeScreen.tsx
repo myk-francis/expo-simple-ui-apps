@@ -63,9 +63,9 @@ type TSyncronisedFlatlistsScreenProp = StackNavigationProp<
   RootStackParamList,
   "SyncronisedFlatlistsScreen"
 >;
-type TCustomDrawerScreenProp = StackNavigationProp<
+type TTransitionScreenOneProp = StackNavigationProp<
   RootStackParamList,
-  "CustomDrawerScreen"
+  "TransitionScreenOne"
 >;
 
 const HomeScreen = () => {
@@ -84,7 +84,7 @@ const HomeScreen = () => {
     | TDonutChartScreenProp
     | TAnotherCorouselScreenProp
     | TSyncronisedFlatlistsScreenProp
-    | TCustomDrawerScreenProp
+    | TTransitionScreenOneProp
   >();
 
   return (
@@ -238,14 +238,14 @@ const HomeScreen = () => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => navigation.navigate("CustomDrawerScreen")}
+          onPress={() => navigation.navigate("TransitionScreenOne")}
           className="h-10 w-1/2 bg-rose-400 flex items-center justify-center rounded-lg mb-4"
         >
           <Text
             testID="another-corousel-btn"
             className=" font-semibold text-white "
           >
-            Custom Drawer
+            Transition One
           </Text>
         </TouchableOpacity>
       </ScrollView>
