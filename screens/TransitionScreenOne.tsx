@@ -12,6 +12,9 @@ import {
 import React from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { useRoute, useNavigation } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Animated from "react-native-reanimated";
+const Stack = createNativeStackNavigator();
 
 const { width, height } = Dimensions.get("screen");
 
@@ -130,7 +133,9 @@ const BackIcon = ({ onPress }: any) => {
   );
 };
 
-const List = () => {
+let startAncestor;
+let startNode;
+const List = ({ navigation }: any) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <MarketingSlider />
@@ -148,7 +153,9 @@ const List = () => {
             <TouchableOpacity
               key={item.id}
               style={{ padding: SPACING }}
-              onPress={() => {}}
+              onPress={() => {
+                navigation.navigate("Details");
+              }}
             >
               <View style={[styles.ImageContainer]}>
                 <Image source={item.imageUri} style={[styles.image]} />
@@ -161,14 +168,16 @@ const List = () => {
   );
 };
 
-const Details = () => {
-  const navigation = useNavigation();
+let endAncestor;
+let endNode;
+const Details = ({ navigation }: any) => {
+  // const navigation = useNavigation();
   const item = DATA[0];
   const ref = React.useRef<any>();
   const selectedItemIndex = DATA.findIndex((i) => i.id === item.id);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, marginTop: 20 }}>
       <BackIcon
         onPress={() => {
           navigation.goBack();
@@ -213,7 +222,7 @@ const Details = () => {
           return (
             <ScrollView
               style={{
-                width: width,
+                width: width - SPACING * 2,
                 margin: SPACING,
                 backgroundColor: "rgba(0,0,0,0.05)",
                 borderRadius: 16,
@@ -234,9 +243,13 @@ const Details = () => {
 
 const TransitionScreenOne = () => {
   return (
-    <View style={styles.container}>
-      <Details />
-    </View>
+    <Stack.Navigator
+      initialRouteName="List"
+      screenOptions={{ headerShown: false }}
+    >
+      <Stack.Screen name="List" component={List} />
+      <Stack.Screen name="Details" component={Details} />
+    </Stack.Navigator>
   );
 };
 
